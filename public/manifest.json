@@ -1,0 +1,66 @@
+{
+  "short_name": "Nihon Dojo",
+  "name": "Nihon Dojo - Master Japanese in 2 Years",
+  "description": "Japanese learning for adults who want results, not games. Two-year fluency guarantee or full refund. FSRS spaced repetition meets AI-powered sentence generation.",
+  "categories": ["education", "reference", "productivity"],
+  "lang": "en-US",
+  "dir": "ltr",
+  "icons": [
+    {
+      "src": "favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "logo192.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "logo512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any maskable"
+    }
+  ],
+  "start_url": "/?utm_source=pwa&utm_medium=homescreen",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#0a0a0a",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "prefer_related_applications": false,
+  "screenshots": [
+    {
+      "src": "/site_preview.png",
+      "sizes": "1920x1080",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Nihon Dojo Japanese learning app interface"
+    },
+    {
+      "src": "/site_preview.png",
+      "sizes": "1080x1920",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Nihon Dojo mobile interface"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "View Pricing",
+      "short_name": "Pricing",
+      "description": "Check out our pricing plans",
+      "url": "/#pricing?utm_source=pwa",
+      "icons": [{ "src": "/logo192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Features",
+      "short_name": "Features",
+      "description": "Explore Nihon Dojo features",
+      "url": "/#features?utm_source=pwa",
+      "icons": [{ "src": "/logo192.png", "sizes": "192x192" }]
+    }
+  ]
+}
