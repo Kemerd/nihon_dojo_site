@@ -235,7 +235,7 @@ const FEATURES_DATA = [
   {
       icon: '📙',
       title: 'Comprehensive Grammar',
-      description: 'Structured grammar lessons that build on each other. Optional but recommended. Understand why Japanese works the way it does, not just memorizing patterns like a robot.',
+      description: 'Structured grammar lessons that build on each other. Optional but recommended. Explains why Japanese works the way it does, because context helps the drilling stick better.',
       comingSoon: false
   },
   {
