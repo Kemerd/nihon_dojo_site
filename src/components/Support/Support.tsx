@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
 import { fadeUpVariant, staggerContainer, bounceScale } from '../../animations/variants';
 import useInView from '../../hooks/useInView';
-import { useRhythmController, useRhythmAnimation } from '../../hooks/useRhythm';
 import { useSectionTracking } from '../../hooks/useAnalyticsTracking';
 import { trackFAQInteraction, trackDiscordClick } from '../../utils/analytics';
 

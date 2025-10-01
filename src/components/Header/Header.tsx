@@ -289,16 +289,6 @@ const DiscordSVG = () => (
   </svg>
 );
 
-// Simple hover animation variants for nav links
-const navLinkHover = {
-  scale: 1.05,
-  transition: {
-    type: 'spring',
-    stiffness: 400,
-    damping: 17
-  }
-};
-
 const Header: React.FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isMenuAnimating, setIsMenuAnimating] = useState(false); // Track animation state

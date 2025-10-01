@@ -1,6 +1,6 @@
-import React, { useEffect, useState, useRef, useMemo, useCallback } from 'react';
+import React, { useMemo } from 'react';
 import styled from 'styled-components';
-import { motion, useAnimation, AnimationControls } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { fadeUpVariant, staggerContainer } from '../../animations/variants';
 import useInView from '../../hooks/useInView';
 import { useSectionTracking } from '../../hooks/useAnalyticsTracking';
@@ -158,36 +158,6 @@ const ComingSoonPill = styled(motion.div)`
   letter-spacing: 0.5px;
 `;
 
-// Container for the background visual effect
-const BackgroundEffectContainer = styled(motion.div)`
-  position: absolute;
-  top: -25px;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  width: 100%;
-  height: 100%;
-  margin: 0 auto;
-  z-index: 1;
-  pointer-events: none;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  padding-top: 0px; /* Position vertically at 290px from top */
-  overflow: visible;
-`;
-
-// Updated BackgroundSVG component with base height
-const BackgroundSVG = styled(motion.img)`
-  max-width: 1500px; 
-  height: 1100px; /* Base height before animation */
-  opacity: 0.8;
-  position: relative;
-  /* Add a slight transform to extend even wider */
-  transform: scale(1.2);
-  transform-origin: center top;
-`;
-
 const GeneralSubtleTextContainer = styled(motion.div)`
   max-width: 700px;
   margin: 0 auto;
@@ -199,11 +169,6 @@ const GeneralSubtleTextContainer = styled(motion.div)`
 
 const TopSpecificSubtleTextContainer = styled(GeneralSubtleTextContainer)`
   margin-bottom: ${({ theme }) => theme.spacing.xl};
-`;
-
-const BottomSpecificSubtleTextContainer = styled(GeneralSubtleTextContainer)`
-  margin-top: ${({ theme }) => theme.spacing['2xl']};
-  max-width: 550px;
 `;
 
 const SubtleText = styled(motion.p)`
@@ -260,7 +225,6 @@ const FEATURES_DATA = [
 
 
 const LOGO_PATH = `${process.env.PUBLIC_URL}/assets/logo/logo_plain.png`;
-const BACKGROUND_SVG_PATH = `${process.env.PUBLIC_URL}/assets/images/squircle_rectangle.svg`;
 
 // Memoized FeatureCard component to prevent unnecessary re-renders
 const MemoizedFeatureCard = React.memo<{

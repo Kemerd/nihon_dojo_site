@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
-import { fadeUpVariant, bounceScale } from '../../animations/variants';
+import { fadeUpVariant } from '../../animations/variants';
 import useInView from '../../hooks/useInView';
 import Modal from '../Modal/Modal';
 import { PrivacyPolicyContent, TermsOfServiceContent, AboutUsContent } from '../Modal/ModalContent';
@@ -125,24 +125,6 @@ const Link = styled(motion.button)`
 const SocialLinks = styled(motion.div)`
   display: flex;
   gap: ${({ theme }) => theme.spacing.md};
-`;
-
-const SocialLink = styled(motion.a)`
-  width: 40px;
-  height: 40px;
-  border-radius: ${({ theme }) => theme.borderRadius.full};
-  background: ${({ theme }) => theme.colors.background.secondary};
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: ${({ theme }) => theme.colors.text.primary};
-  font-size: ${({ theme }) => theme.typography.fontSize.xl};
-  transition: all 0.2s ease;
-
-  &:hover {
-    background: ${({ theme }) => theme.colors.accent};
-    transform: translateY(-2px);
-  }
 `;
 
 const BottomBar = styled(motion.div)`
