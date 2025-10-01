@@ -386,7 +386,7 @@ const Support: React.FC = () => {
                                     <OptionTitle>Email Us</OptionTitle>
                                 </OptionHeader>
                                 <OptionDescription>
-                                    Send us an email and we'll get back to you as soon as possible, typically within 24-48 hours. (That's a lie. It's whenever I wake up.)
+                                    Send us an email and we'll get back to you as soon as possible, typically within 24-48 hours. That's a lie. It's whenever I wake up.
                                 </OptionDescription>
                                 <EmailText
                                     href="mailto:support@novabox.digital"
@@ -401,7 +401,7 @@ const Support: React.FC = () => {
                                     <OptionTitle>Join Discord</OptionTitle>
                                 </OptionHeader>
                                 <OptionDescription>
-                                    Join our community of learners, get real-time help, and be the first to know about new features. (You'll actually get faster support here. I live on Discord.)
+                                    Join our community of learners, get real-time help, and be the first to know about new features. You'll actually get faster support here. I live on Discord.
                                 </OptionDescription>
                                 <DiscordButton
                                     href="https://discord.gg/vQjKzjGtKg"
