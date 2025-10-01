@@ -147,6 +147,38 @@ const CardImage = styled(motion.img)`
   will-change: filter;
 `;
 
+// Modal overlay styled components
+const ModalOverlay = styled(motion.div)`
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: ${({ theme }) => theme.spacing.xl};
+`;
+
+const ModalBackground = styled(motion.div)`
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.9);
+  backdrop-filter: blur(25px);
+`;
+
+const ModalCardContainer = styled(motion.div)`
+  position: relative;
+  width: min(90vw, 500px);
+  max-height: 90vh;
+  aspect-ratio: 2619 / 5436;
+  z-index: 1001;
+`;
+
 const Hero: React.FC = React.memo(() => {
   // Add section tracking for analytics
   const heroRef = useSectionTracking('hero');
@@ -167,6 +199,8 @@ const Hero: React.FC = React.memo(() => {
   const [activeIndex, setActiveIndex] = useState(0);
   // State to track if initial entrance animation has completed
   const [hasEnteredInitially, setHasEnteredInitially] = useState(false);
+  // State to track if a card is expanded in modal view
+  const [expandedCard, setExpandedCard] = useState<number | null>(null);
 
   // Data for the carousel cards - All 10 app preview images
   const cardData = useMemo(() =>
@@ -200,6 +234,22 @@ const Hero: React.FC = React.memo(() => {
       }
     }
   }, [cardData.length]);
+
+  // Handle card click - if clicking center card, expand it in modal
+  const handleCardClick = useCallback((index: number) => {
+    if (index === activeIndex) {
+      // Center card clicked - expand to modal
+      setExpandedCard(index);
+    } else {
+      // Non-center card clicked - bring it to center
+      setActiveIndex(index);
+    }
+  }, [activeIndex]);
+
+  // Handle closing the expanded modal
+  const handleCloseModal = useCallback(() => {
+    setExpandedCard(null);
+  }, []);
 
   // Spring transition configuration for smooth card animations
   const springTransition = useMemo(() => ({
@@ -442,7 +492,7 @@ const Hero: React.FC = React.memo(() => {
                             }
                       }
                       exit={{ opacity: 0, scale: 0.3, transition: { duration: 0.2 } }}
-                      onClick={() => setActiveIndex(index)}
+                      onClick={() => handleCardClick(index)}
                       whileHover={cardHoverEffect}
                     >
                       <motion.div
@@ -450,6 +500,7 @@ const Hero: React.FC = React.memo(() => {
                         style={{ width: '100%', height: '100%' }}
                       >
                         <CardImage
+                          layoutId={`card-image-${card.id}`}
                           src={card.src}
                           alt={card.alt}
                         />
@@ -461,6 +512,33 @@ const Hero: React.FC = React.memo(() => {
             </CarouselInnerContainer>
         </CarouselOuterContainer>
       </HeroContent>
+
+      {/* Modal for expanded card view with seamless layout animation */}
+      <AnimatePresence>
+        {expandedCard !== null && (
+          <ModalOverlay onClick={handleCloseModal}>
+            <ModalBackground
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+            />
+            <ModalCardContainer onClick={(e: React.MouseEvent) => e.stopPropagation()}>
+              <CardImage
+                layoutId={`card-image-${expandedCard}`}
+                src={cardData[expandedCard].src}
+                alt={cardData[expandedCard].alt}
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'contain',
+                  filter: 'drop-shadow(0 30px 80px rgba(0,0,0,0.5))'
+                }}
+              />
+            </ModalCardContainer>
+          </ModalOverlay>
+        )}
+      </AnimatePresence>
     </HeroSection>
   );
 });
