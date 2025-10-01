@@ -99,7 +99,7 @@ export const AboutUsContent: React.FC = () => (
             reach out:
         </p>
         <p>
-            Email: support@nihondojo.com
+            Email: support@novabox.digital
         </p>
     </Content>
 ); 

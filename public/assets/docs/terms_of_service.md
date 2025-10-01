@@ -165,7 +165,7 @@ You agree to defend, indemnify, and hold harmless Novabox and its officers, dire
 These Terms shall be governed by the laws of the State of Delaware, without regard to its conflict of law provisions.
 
 ### 13.2 Informal Dispute Resolution
-Before filing a claim, you agree to try to resolve the dispute informally by contacting us at support@nihondojo.com. We will attempt to resolve the dispute informally within 60 days.
+Before filing a claim, you agree to try to resolve the dispute informally by contacting us at support@novabox.digital. We will attempt to resolve the dispute informally within 60 days.
 
 ### 13.3 Binding Arbitration
 If we cannot resolve a dispute informally, any dispute arising from or relating to these Terms or the Service shall be finally settled by binding arbitration administered by the American Arbitration Association under its Commercial Arbitration Rules. The arbitration will be conducted in the English language by a single arbitrator in Delaware.
@@ -188,7 +188,7 @@ We may terminate or suspend your account and access to the Service immediately, 
 You may terminate your account at any time by:
 - Canceling your subscription (if applicable)
 - Deleting your account through account settings
-- Contacting us at support@nihondojo.com
+- Contacting us at support@novabox.digital
 
 ### 14.3 Effect of Termination
 Upon termination:
@@ -223,7 +223,7 @@ These Terms are written in English. Any translations are provided for convenienc
 For any questions about these Terms, please contact us at:
 
 Novabox LLC
-Email: support@nihondojo.com
+Email: support@novabox.digital
 
 ## 16. Acknowledgment
 
