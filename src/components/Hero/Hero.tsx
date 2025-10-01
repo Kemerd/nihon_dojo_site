@@ -346,7 +346,7 @@ const Hero: React.FC = React.memo(() => {
         </Title>
 
         <Subtitle variants={fadeUpVariant}>
-        No cartoon mascots. No meaningless streaks. Just AI-powered sentence generation, real formality switching, and a two-year fluency guarantee. Use it every day, do the work, or get your money back. Simple as that.
+        No cartoon mascots. No meaningless streaks. Just spaced repetition, AI-powered sentence generation, and a two-year fluency guarantee. Use it every day, do the work, or get your money back. Simple as that.
         </Subtitle>
 
         {/* Carousel Implementation */}

@@ -252,7 +252,7 @@ const faqs = [
     },
     {
         question: "Can I really become fluent in 2 years?",
-        answer: "If you use the app every day and do the work, yes. Fluency isn't magic - it's consistent exposure and practice. We've built a system that makes that practice as efficient as possible. But if you're looking for effortless language learning, we're not your app.",
+        answer: "If you use the app every day for two years straight, yes. Fluency isn't magic - it's consistent exposure and practice. We've built a system that makes that practice as efficient as possible. But if you're looking for effortless language learning, we're not your app. Sorry.",
     },
     {
         question: "Does it work offline?",
