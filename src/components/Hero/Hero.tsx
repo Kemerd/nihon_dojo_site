@@ -1,13 +1,8 @@
 import React, { useState, useMemo, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import styled from 'styled-components';
-import { fadeUpVariant, staggerContainer, bounceScale } from '../../animations/variants';
-import { trackDownloadClick } from '../../utils/analytics';
+import { fadeUpVariant, staggerContainer } from '../../animations/variants';
 import { useSectionTracking } from '../../hooks/useAnalyticsTracking';
-
-// Move static data outside component to prevent recreation on every render
-const IOS_APP_STORE_LOGO = `${process.env.PUBLIC_URL}/assets/images/brand-logos/ios_app_store.svg`;
-const ANDROID_APP_STORE_LOGO = `${process.env.PUBLIC_URL}/assets/images/brand-logos/android_app_store.svg`;
 
 // Generate array of app preview images (0.png through 10.png)
 const APP_PREVIEW_IMAGES = Array.from({ length: 11 }, (_, i) =>
@@ -70,51 +65,18 @@ const Subtitle = styled(motion.p)`
   font-size: ${({ theme }) => theme.typography.fontSize.xl};
   color: ${({ theme }) => theme.colors.text.secondary};
   max-width: 800px;
-  margin: 0 auto ${({ theme }) => theme.spacing['2xl']};
+  margin: 0 auto;
+  margin-bottom: ${({ theme }) => theme.spacing['2xl']};
   line-height: 1.5;
   padding: 0 ${({ theme }) => theme.spacing.md};
 `;
 
-const CTAContainer = styled(motion.div)`
-  display: flex;
-  gap: ${({ theme }) => theme.spacing.lg};
-  justify-content: center;
-  margin-bottom: ${({ theme }) => theme.spacing.sm};
-
-  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
-    flex-direction: column;
-    align-items: center;
-  }
-`;
-
-const DownloadButton = styled(motion.a).withConfig({
-  shouldForwardProp: (prop) => !['whileHover', 'whileTap'].includes(prop),
-})`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: ${({ theme }) => `${theme.spacing.sm} ${theme.spacing.md}`};
-  background: transparent;
-  border-radius: ${({ theme }) => theme.borderRadius.lg};
-  text-decoration: none;
-  cursor: pointer;
-  position: relative;
-  overflow: hidden;
-  transition: transform 0.2s ease;
-`;
-
-const ButtonIcon = styled(motion.img)`
-  height: 50px;
-  width: auto;
-  transition: opacity 0.2s ease-out;
-`;
-
-// New Styled Components for Carousel
+// Carousel Styled Components
 const CarouselOuterContainer = styled(motion.div)`
   width: 100%;
-  margin: 0 auto;
+  margin: 0;
   position: relative;
-  padding-top: 0;
+  padding: 0;
   padding-bottom: ${({ theme }) => theme.spacing['3xl']};
   &::after {
     content: '';
@@ -139,19 +101,19 @@ const CarouselInnerContainer = styled(motion.div)`
   justify-content: center;
   align-items: center;
   position: relative;
-  min-height: 900px;
+  min-height: 600px;
   perspective: 2000px;
   max-width: 1400px;
   margin: 0 auto;
-  margin-top: 0;
+  padding-top: ${({ theme }) => theme.spacing.md};
   overflow: visible;
 
   @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
-    min-height: 700px;
+    min-height: 500px;
   }
 
   @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
-    min-height: 550px;
+    min-height: 400px;
   }
 `;
 
@@ -189,32 +151,6 @@ const Hero: React.FC = React.memo(() => {
   // Add section tracking for analytics
   const heroRef = useSectionTracking('hero');
 
-  // Handler for iOS App Store button click
-  const handleiOSClick = useCallback((e: React.MouseEvent) => {
-    e.preventDefault();
-    trackDownloadClick('ios');
-    // TODO: Replace with actual App Store URL when available
-    window.open('https://apps.apple.com/app/nihon-dojo', '_blank');
-  }, []);
-
-  // Handler for Android Play Store button click
-  const handleAndroidClick = useCallback((e: React.MouseEvent) => {
-    e.preventDefault();
-    trackDownloadClick('android');
-    // TODO: Replace with actual Play Store URL when available
-    window.open('https://play.google.com/store/apps/details?id=com.nihondojo.app', '_blank');
-  }, []);
-
-  const appStoreButtonHover = useMemo(() => ({
-    scale: 1.05,
-    transition: { type: "spring", stiffness: 400, damping: 10 }
-  }), []);
-
-  const appStoreButtonTap = useMemo(() => ({
-    scale: 0.98,
-    transition: { type: "spring", stiffness: 400, damping: 10 }
-  }), []);
-
   const gradientBackgroundAnimation = useMemo(() => ({
     animate: {
       scale: [1, 1.2, 1],
@@ -225,12 +161,6 @@ const Hero: React.FC = React.memo(() => {
       repeat: Infinity,
       repeatType: "reverse" as const,
     }
-  }), []);
-
-  const buttonIconAnimation = useMemo(() => ({
-    initial: { opacity: 0, scale: 0.9 },
-    animate: { opacity: 1, scale: 1 },
-    transition: { type: "spring", stiffness: 300, delay: 0.1 }
   }), []);
 
   // State for the active card in the carousel - Start with card 0 in center
@@ -333,36 +263,6 @@ const Hero: React.FC = React.memo(() => {
         No cartoon mascots. No meaningless streaks. Just AI-powered sentence generation, real formality switching, and a two-year fluency guarantee. Use it every day, do the work, or get your money back. Simple as that.
         </Subtitle>
 
-        <CTAContainer variants={fadeUpVariant}>
-          <DownloadButton
-            href="#"
-            onClick={handleiOSClick}
-            variants={bounceScale}
-            whileHover={appStoreButtonHover}
-            whileTap={appStoreButtonTap}
-          >
-            <ButtonIcon
-              src={IOS_APP_STORE_LOGO}
-              alt="Download on the App Store"
-              {...buttonIconAnimation}
-            />
-          </DownloadButton>
-
-          <DownloadButton
-            href="#"
-            onClick={handleAndroidClick}
-            variants={bounceScale}
-            whileHover={appStoreButtonHover}
-            whileTap={appStoreButtonTap}
-          >
-            <ButtonIcon
-              src={ANDROID_APP_STORE_LOGO}
-              alt="Get it on Google Play"
-              {...buttonIconAnimation}
-            />
-          </DownloadButton>
-        </CTAContainer>
-
         {/* Carousel Implementation */}
         <CarouselOuterContainer
           variants={fadeUpVariant}
@@ -405,13 +305,13 @@ const Hero: React.FC = React.memo(() => {
                     };
                     zIndex = 10;
                   }
-                  // Immediate left neighbor
+                  // Immediate left neighbor - fully opaque with rotation towards viewer
                   else if (offset === -1) {
                     animateState = {
                       x: '-85%',
                       scale: 0.85,
-                      rotateY: 15,
-                      opacity: 0.85,
+                      rotateY: -25, // Flipped: negative rotation for left side to angle inward
+                      opacity: 1,
                       boxShadow: '0 20px 40px -12px rgba(0, 0, 0, 0.4)',
                       y: 10,
                       rotateX: 0,
@@ -419,13 +319,13 @@ const Hero: React.FC = React.memo(() => {
                     };
                     zIndex = 9;
                   }
-                  // Immediate right neighbor
+                  // Immediate right neighbor - fully opaque with rotation towards viewer
                   else if (offset === 1) {
                     animateState = {
                       x: '85%',
                       scale: 0.85,
-                      rotateY: -15,
-                      opacity: 0.85,
+                      rotateY: 25, // Flipped: positive rotation for right side to angle inward
+                      opacity: 1,
                       boxShadow: '0 20px 40px -12px rgba(0, 0, 0, 0.4)',
                       y: 10,
                       rotateX: 0,
@@ -438,12 +338,12 @@ const Hero: React.FC = React.memo(() => {
                     animateState = {
                       x: '-130%',
                       scale: 0.75,
-                      rotateY: 25,
-                      opacity: 0.6,
+                      rotateY: -35, // Flipped
+                      opacity: 0.7,
                       boxShadow: '0 15px 30px -10px rgba(0, 0, 0, 0.35)',
                       y: 20,
                       rotateX: 0,
-                      filter: 'blur(1px)'
+                      filter: 'blur(0.5px)'
                     };
                     zIndex = 8;
                   }
@@ -452,29 +352,29 @@ const Hero: React.FC = React.memo(() => {
                     animateState = {
                       x: '130%',
                       scale: 0.75,
-                      rotateY: -25,
-                      opacity: 0.6,
+                      rotateY: 35, // Flipped
+                      opacity: 0.7,
                       boxShadow: '0 15px 30px -10px rgba(0, 0, 0, 0.35)',
                       y: 20,
                       rotateX: 0,
-                      filter: 'blur(1px)'
+                      filter: 'blur(0.5px)'
                     };
                     zIndex = 8;
                   }
-                  // Further cards - position them off screen but ready for transitions
+                  // Further cards - rotated inward to face viewer
                   else {
                     const absOffset = Math.abs(offset);
                     const direction = offset < 0 ? -1 : 1;
 
                     animateState = {
                       x: `${direction * (130 + (absOffset - 2) * 30)}%`,
-                      scale: Math.max(0.6, 0.75 - (absOffset - 2) * 0.08),
-                      rotateY: direction * (25 + (absOffset - 2) * 8),
-                      opacity: Math.max(0, 0.6 - (absOffset - 2) * 0.15),
+                      scale: Math.max(0.65, 0.75 - (absOffset - 2) * 0.06),
+                      rotateY: -direction * Math.min(40, 35 + (absOffset - 2) * 2), // Flipped: negative direction for inward rotation
+                      opacity: Math.max(0.3, 0.7 - (absOffset - 2) * 0.12),
                       boxShadow: '0 10px 20px -8px rgba(0, 0, 0, 0.3)',
                       y: 20 + (absOffset - 2) * 5,
                       rotateX: 0,
-                      filter: `blur(${Math.min(4, 1 + (absOffset - 2) * 1)}px)`
+                      filter: `blur(${Math.min(3, 0.5 + (absOffset - 2) * 0.8)}px)`
                     };
                     zIndex = Math.max(1, 8 - (absOffset - 2));
                   }
