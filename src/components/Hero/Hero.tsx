@@ -104,6 +104,7 @@ const CarouselInnerContainer = styled(motion.div)`
   min-height: 600px;
   perspective: 2000px;
   max-width: 1400px;
+  width: 100%; /* Explicitly set width to prevent expansion/contraction */
   margin: 0 auto;
   padding-top: ${({ theme }) => theme.spacing.md};
   overflow: visible;
@@ -203,10 +204,12 @@ const Hero: React.FC = React.memo(() => {
 
   // State for the active card in the carousel - Start with card 0 in center
   const [activeIndex, setActiveIndex] = useState(0);
-  // State to track if initial entrance animation has completed
-  const [hasEnteredInitially, setHasEnteredInitially] = useState(false);
   // State to track if a card is expanded in modal view
   const [expandedCard, setExpandedCard] = useState<number | null>(null);
+  // Ref to track carousel container for debugging
+  const carouselRef = React.useRef<HTMLDivElement>(null);
+  // Ref to track if initial entrance animation has completed - using ref to avoid re-render
+  const hasEnteredInitiallyRef = React.useRef(false);
 
   // Data for the carousel cards - All 10 app preview images
   const cardData = useMemo(() =>
@@ -297,14 +300,24 @@ const Hero: React.FC = React.memo(() => {
     };
   }, [getPositionOffset]);
 
-  // Trigger completion of entrance animation
+  // Trigger completion of entrance animation - using ref to avoid re-render
   React.useEffect(() => {
     const timer = setTimeout(() => {
-      setHasEnteredInitially(true);
+      if (carouselRef.current) {
+        const rect = carouselRef.current.getBoundingClientRect();
+        console.log(`🎬 ENTRANCE COMPLETE: Container width: ${rect.width}px | Setting ref (no re-render)`);
+      }
+      hasEnteredInitiallyRef.current = true;
+      console.log(`✅ hasEnteredInitiallyRef.current = true (ref change, no state update)`);
     }, 2000); // After all cards have finished their entrance animation
 
     return () => clearTimeout(timer);
   }, []);
+
+  // Log activeIndex changes to track navigation
+  React.useEffect(() => {
+    console.log(`🎯 ACTIVE INDEX CHANGED: ${activeIndex} | hasEnteredInitiallyRef.current: ${hasEnteredInitiallyRef.current}`);
+  }, [activeIndex]);
 
   return (
     <HeroSection
@@ -337,6 +350,7 @@ const Hero: React.FC = React.memo(() => {
           animate="visible"
         >
           <CarouselInnerContainer
+            ref={carouselRef}
             drag="x"
             dragConstraints={{ left: 0, right: 0 }}
             dragElastic={0.1}
@@ -354,6 +368,11 @@ const Hero: React.FC = React.memo(() => {
 
                   let animateState = {};
                   let zIndex = 0;
+
+                  // Log calculations for center card and immediate neighbors
+                  if (Math.abs(offset) <= 2) {
+                    console.log(`📊 Card ${index} | offset: ${offset} | isCenter: ${isCenter} | cardPos: ${cardPositionOffset} | activePos: ${activePositionOffset}`)
+                  }
 
                   // Center card (currently selected)
                   if (isCenter) {
@@ -437,6 +456,11 @@ const Hero: React.FC = React.memo(() => {
                     zIndex = Math.max(1, 8 - (absOffset - 2));
                   }
 
+                  // Log the calculated animateState x value for debugging x-axis issues
+                  if (Math.abs(offset) <= 2) {
+                    console.log(`   ↳ x: ${(animateState as any).x} | scale: ${(animateState as any).scale} | rotateY: ${(animateState as any).rotateY}`);
+                  }
+
                   const cardHoverEffect = {
                     y: isCenter ? -8 : -12,
                     scale: isCenter ? 1.03 : 0.78,
@@ -463,34 +487,41 @@ const Hero: React.FC = React.memo(() => {
                   // Calculate staggered delay for liquid cascade effect
                   const entranceDelay = 0.5 + (Math.abs(getPositionOffset(index)) * 0.15);
 
+                  // Build the transition based on ref (not state) to avoid re-renders
+                  // Key insight: Using ref instead of state prevents re-animation when flag changes
+                  const shouldUseEntranceTransition = !hasEnteredInitiallyRef.current;
+
+                  const transitionToUse = shouldUseEntranceTransition ? {
+                    // Use premium entrance spring for initial animation
+                    ...entranceSpringTransition,
+                    delay: entranceDelay,
+                    // Custom easing for different properties
+                    opacity: {
+                      duration: 1.2,
+                      delay: entranceDelay,
+                      ease: [0.19, 1, 0.22, 1] // Expo.easeOut for opacity
+                    },
+                    filter: {
+                      duration: 1,
+                      delay: entranceDelay + 0.2,
+                      ease: "easeOut"
+                    }
+                  } : springTransition;
+
+                  // Log transition type for debugging
+                  if (Math.abs(offset) <= 1 && index === activeIndex) {
+                    console.log(`🔄 Card ${index} (CENTER) using transition: ${hasEnteredInitiallyRef.current ? 'springTransition' : 'entranceSpringTransition'}`);
+                  }
+
                   return (
                     <CardWrapper
                       key={card.id}
-                      initial={getInitialState()}
+                      initial={!hasEnteredInitiallyRef.current ? getInitialState() : false} // Only apply initial state during entrance
                       animate={{
                         ...animateState,
                         zIndex
                       }}
-                      transition={
-                        hasEnteredInitially
-                          ? springTransition // Use fast spring for position changes after entrance
-                          : {
-                              // Use premium entrance spring for initial animation
-                              ...entranceSpringTransition,
-                              delay: entranceDelay,
-                              // Custom easing for different properties
-                              opacity: {
-                                duration: 1.2,
-                                delay: entranceDelay,
-                                ease: [0.19, 1, 0.22, 1] // Expo.easeOut for opacity
-                              },
-                              filter: {
-                                duration: 1,
-                                delay: entranceDelay + 0.2,
-                                ease: "easeOut"
-                              }
-                            }
-                      }
+                      transition={transitionToUse}
                       exit={{ opacity: 0, scale: 0.3, transition: { duration: 0.2 } }}
                       onClick={() => handleCardClick(index)}
                       whileHover={cardHoverEffect}
