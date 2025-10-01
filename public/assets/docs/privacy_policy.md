@@ -158,7 +158,7 @@ You may have the right to request that we delete your personal information in ce
 You may have the right to restrict or object to our processing of your personal information in certain circumstances.
 
 ### 6.5 Exercising Your Rights
-To exercise these rights, please contact us at support@nihondojo.com. Please note that these rights are not absolute, and we may be entitled to refuse requests where exceptions apply.
+To exercise these rights, please contact us at support@novabox.digital. Please note that these rights are not absolute, and we may be entitled to refuse requests where exceptions apply.
 
 ## 7. Opt-Out Provisions
 
@@ -200,7 +200,7 @@ If you are a California resident, you have specific rights regarding your person
 - Right to opt-out of the sale of personal information
 - Right to non-discrimination for exercising your CCPA rights
 
-To exercise these rights, please contact us at support@nihondojo.com.
+To exercise these rights, please contact us at support@novabox.digital.
 
 ## 14. International Users
 
@@ -216,6 +216,6 @@ If you are subject to the European General Data Protection Regulation (GDPR) and
 
 If you have any questions about this Privacy Policy, please contact us:
 
-By email: support@nihondojo.com
+By email: support@novabox.digital
 
 By using the Service, you acknowledge that you have read, understood, and agree to this Privacy Policy.
