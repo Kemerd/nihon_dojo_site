@@ -219,16 +219,27 @@ const Hero: React.FC = React.memo(() => {
     restSpeed: 0.001
   }), []);
 
-  // Animation for the entire carousel group
-  const carouselGroupAnimation = useMemo(() => ({
-    y: [5, -5, 5],
-    transition: {
-      duration: 8,
-      repeat: Infinity,
-      repeatType: "reverse" as const,
-      ease: "easeInOut",
-    }
-  }), []);
+  // Animation for individual cards with staggered breathing effect
+  const getCardBreathingAnimation = useCallback((index: number, activeIndex: number) => {
+    const cardPositionOffset = getPositionOffset(index);
+    const activePositionOffset = getPositionOffset(activeIndex);
+    const offset = cardPositionOffset - activePositionOffset;
+
+    // Calculate delay based on distance from center - center cards breathe first
+    const distanceFromCenter = Math.abs(offset);
+    const delay = distanceFromCenter * 0.3; // 0.3s delay per position away from center
+
+    return {
+      y: [0, -8, 0],
+      transition: {
+        duration: 3,
+        repeat: Infinity,
+        repeatType: "reverse" as const,
+        ease: "easeInOut",
+        delay: delay,
+      }
+    };
+  }, [getPositionOffset]);
 
   // Trigger completion of entrance animation
   React.useEffect(() => {
@@ -269,18 +280,15 @@ const Hero: React.FC = React.memo(() => {
           initial="hidden"
           animate="visible"
         >
-          <motion.div
-            animate={carouselGroupAnimation}
+          <CarouselInnerContainer
+            drag="x"
+            dragConstraints={{ left: 0, right: 0 }}
+            dragElastic={0.1}
+            onDragEnd={handleDragEnd}
+            style={{ cursor: 'grab' }}
+            whileDrag={{ cursor: 'grabbing' }}
           >
-            <CarouselInnerContainer
-              drag="x"
-              dragConstraints={{ left: 0, right: 0 }}
-              dragElastic={0.1}
-              onDragEnd={handleDragEnd}
-              style={{ cursor: 'grab' }}
-              whileDrag={{ cursor: 'grabbing' }}
-            >
-              <AnimatePresence initial={true}>
+            <AnimatePresence initial={true}>
                 {cardData.map((card, index) => {
                   // Calculate position offset based on card index and which card is active/centered
                   const cardPositionOffset = getPositionOffset(index);
@@ -437,16 +445,20 @@ const Hero: React.FC = React.memo(() => {
                       onClick={() => setActiveIndex(index)}
                       whileHover={cardHoverEffect}
                     >
-                      <CardImage
-                        src={card.src}
-                        alt={card.alt}
-                      />
+                      <motion.div
+                        animate={getCardBreathingAnimation(index, activeIndex)}
+                        style={{ width: '100%', height: '100%' }}
+                      >
+                        <CardImage
+                          src={card.src}
+                          alt={card.alt}
+                        />
+                      </motion.div>
                     </CardWrapper>
                   );
                 })}
               </AnimatePresence>
             </CarouselInnerContainer>
-          </motion.div>
         </CarouselOuterContainer>
       </HeroContent>
     </HeroSection>
