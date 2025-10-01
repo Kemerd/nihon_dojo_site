@@ -362,14 +362,6 @@ const Features: React.FC = React.memo(() => {
                 animate={inViewControls}
                 style={{ position: 'relative' }}
             >
-                <BackgroundEffectContainer variants={fadeUpVariant}>
-                  <BackgroundSVG
-                    src={BACKGROUND_SVG_PATH}
-                    alt=""
-                    variants={fadeUpVariant}
-                  />
-                </BackgroundEffectContainer>
-
                 <LogoContainer variants={fadeUpVariant}>
                   <Logo
                     src={LOGO_PATH}

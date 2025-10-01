@@ -8,9 +8,11 @@ import { useSectionTracking } from '../../hooks/useAnalyticsTracking';
 // Move static data outside component to prevent recreation on every render
 const IOS_APP_STORE_LOGO = `${process.env.PUBLIC_URL}/assets/images/brand-logos/ios_app_store.svg`;
 const ANDROID_APP_STORE_LOGO = `${process.env.PUBLIC_URL}/assets/images/brand-logos/android_app_store.svg`;
-const APP_PREVIEW_1_IMAGE = `${process.env.PUBLIC_URL}/assets/images/app_preview_1.png`;
-const APP_PREVIEW_3_IMAGE = `${process.env.PUBLIC_URL}/assets/images/app_preview_2.png`;
-const APP_PREVIEW_2_IMAGE = `${process.env.PUBLIC_URL}/assets/images/app_preview_3.png`;
+
+// Generate array of app preview images (0.png through 9.png)
+const APP_PREVIEW_IMAGES = Array.from({ length: 10 }, (_, i) =>
+  `${process.env.PUBLIC_URL}/assets/images/app_previews/${i}.png`
+);
 
 // Styled components for our hero section
 const HeroSection = styled(motion.section)`
@@ -146,8 +148,8 @@ const CarouselInnerContainer = styled(motion.div)`
 
 const CardWrapper = styled(motion.div)`
   position: absolute;
-  width: clamp(400px, 80%, 720px);
-  aspect-ratio: 1 / 1;
+  width: clamp(200px, 40%, 360px);
+  aspect-ratio: 2619 / 5436; /* Portrait phone screenshot aspect ratio (roughly 0.482:1 or 1:2.08) */
   cursor: pointer;
   transform-style: preserve-3d;
   will-change: transform, opacity, filter, box-shadow, z-index;
@@ -214,17 +216,27 @@ const Hero: React.FC = React.memo(() => {
     transition: { type: "spring", stiffness: 300, delay: 0.1 }
   }), []);
 
-  // State for the active card in the carousel
-  const [activeIndex, setActiveIndex] = useState(1);
+  // State for the active card in the carousel - Start with card 0 in center
+  const [activeIndex, setActiveIndex] = useState(0);
   // State to track if initial entrance animation has completed
   const [hasEnteredInitially, setHasEnteredInitially] = useState(false);
 
-  // Data for the carousel cards
-  const cardData = useMemo(() => [
-    { id: 0, src: APP_PREVIEW_1_IMAGE, alt: "Nihon Dojo App Interface - Vocabulary Learning" },
-    { id: 1, src: APP_PREVIEW_2_IMAGE, alt: "Nihon Dojo App Interface - Grammar Lessons" },
-    { id: 2, src: APP_PREVIEW_3_IMAGE, alt: "Nihon Dojo App Interface - Cultural Content" },
-  ], []);
+  // Data for the carousel cards - All 10 app preview images
+  const cardData = useMemo(() =>
+    APP_PREVIEW_IMAGES.map((src, index) => ({
+      id: index,
+      src,
+      alt: `Nihon Dojo App Interface - Screenshot ${index + 1}`
+    }))
+  , []);
+
+  // Helper function to convert card index to position offset from center
+  // 0 → 0 (center), 1 → -1 (left), 2 → 1 (right), 3 → -2 (left), 4 → 2 (right), etc.
+  const getPositionOffset = useCallback((index: number) => {
+    if (index === 0) return 0;
+    if (index % 2 === 1) return -Math.ceil(index / 2); // Odd indices go left
+    return Math.ceil(index / 2); // Even indices go right
+  }, []);
 
   // Touch/swipe handling for mobile
   const handleDragEnd = useCallback((event: any, info: any) => {
@@ -233,11 +245,11 @@ const Hero: React.FC = React.memo(() => {
 
     if (Math.abs(offset.x) > threshold) {
       if (offset.x > 0) {
-        // Swiped right - go to previous card
-        setActiveIndex(prev => Math.max(0, prev - 1));
+        // Swiped right - cycle to next card in sequence
+        setActiveIndex(prev => (prev + 1) % cardData.length);
       } else {
-        // Swiped left - go to next card
-        setActiveIndex(prev => Math.min(cardData.length - 1, prev + 1));
+        // Swiped left - cycle to previous card in sequence
+        setActiveIndex(prev => (prev - 1 + cardData.length) % cardData.length);
       }
     }
   }, [cardData.length]);

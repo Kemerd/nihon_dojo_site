@@ -185,7 +185,7 @@ const Footer: React.FC = () => {
       >
         <Column>
           <Logo href="https://novabox.digital/">
-            <img src={`${process.env.PUBLIC_URL}/assets/logo/logo_plain.png`} alt="Nihon Dojo Logo" />
+            <img src={`${process.env.PUBLIC_URL}/assets/logo/small_novabox1.png`} alt="Novabox LLC" />
           </Logo>
           <Description>
             Nihon Dojo is a no-nonsense Japanese learning app that actually gets you fluent. AI-powered sentence generation, FSRS spaced repetition, and a two-year fluency guarantee. Built by learners who got tired of apps that don't work.

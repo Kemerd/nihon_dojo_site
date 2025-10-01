@@ -57,6 +57,12 @@ const HeaderTopRow = styled.div`
   height: 80px;
 `;
 
+const LeftSection = styled.div`
+  display: flex;
+  align-items: center;
+  gap: ${({ theme }) => theme.spacing.lg};
+`;
+
 const Logo = styled(motion.a)`
   display: flex;
   align-items: center;
@@ -69,6 +75,32 @@ const Logo = styled(motion.a)`
     height: 50px;
     width: auto;
     transform-origin: center; /* For rotation around center */
+  }
+`;
+
+const AppStoreButtons = styled.div`
+  display: flex;
+  align-items: center;
+  gap: ${({ theme }) => theme.spacing.md};
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
+    display: none; /* Hide on mobile to save space */
+  }
+`;
+
+const AppStoreButton = styled(motion.a)`
+  display: flex;
+  align-items: center;
+  opacity: 0.9;
+  transition: opacity 0.2s ease;
+
+  &:hover {
+    opacity: 1;
+  }
+
+  img {
+    height: 40px;
+    width: auto;
   }
 `;
 
@@ -335,14 +367,40 @@ const Header: React.FC = () => {
       }}
     >
       <HeaderTopRow>
-        <Logo
-          href="/"
-          variants={bounceScale}
-          whileHover="hover"
-          whileTap="tap"
-        >
-          <img src={`${process.env.PUBLIC_URL}/assets/logo/logo_plain.png`} alt="Nihon Dojo Logo" />
-        </Logo>
+        <LeftSection>
+          <Logo
+            href="/"
+            variants={bounceScale}
+            whileHover="hover"
+            whileTap="tap"
+          >
+            <img src={`${process.env.PUBLIC_URL}/assets/logo/logo_plain.png`} alt="Nihon Dojo Logo" />
+          </Logo>
+
+          <AppStoreButtons>
+            <AppStoreButton
+              href="https://apps.apple.com/app/nihon-dojo"
+              target="_blank"
+              rel="noopener noreferrer"
+              variants={bounceScale}
+              whileHover="hover"
+              whileTap="tap"
+            >
+              <img src={`${process.env.PUBLIC_URL}/assets/images/brand-logos/ios_app_store.svg`} alt="Download on App Store" />
+            </AppStoreButton>
+
+            <AppStoreButton
+              href="https://play.google.com/store/apps/details?id=com.nihondojo.app"
+              target="_blank"
+              rel="noopener noreferrer"
+              variants={bounceScale}
+              whileHover="hover"
+              whileTap="tap"
+            >
+              <img src={`${process.env.PUBLIC_URL}/assets/images/brand-logos/android_app_store.svg`} alt="Get it on Google Play" />
+            </AppStoreButton>
+          </AppStoreButtons>
+        </LeftSection>
 
         <Nav>
           {/* Discord Button without rhythm animation */}
