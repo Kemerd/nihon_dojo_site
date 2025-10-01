@@ -456,7 +456,7 @@ const Hero: React.FC = React.memo(() => {
                       y: 300, // Start from below
                       rotateY: cardOffset === 0 ? 0 : (cardOffset < 0 ? 25 : -25),
                       rotateX: -15, // Subtle 3D tilt
-                      filter: 'blur(10px)', // Start blurred for premium effect
+                      filter: 'drop-shadow(0 10px 20px rgba(0, 0, 0, 0.3)) blur(10px)', // Start with both drop-shadow and blur for smooth transition
                     };
                   };
 
