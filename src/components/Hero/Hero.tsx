@@ -143,8 +143,14 @@ const CardImage = styled(motion.img)`
   object-fit: cover;
   border-radius: ${({ theme }) => theme.borderRadius.xl};
   user-select: none;
+  /* Use drop-shadow which naturally respects alpha channel/transparency of PNG */
   filter: drop-shadow(0 8px 15px rgba(0,0,0,0.15));
   will-change: filter;
+
+  /* Ensure image rendering preserves transparency for proper drop-shadow masking */
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+  image-rendering: auto;
 `;
 
 // Modal overlay styled components
@@ -356,10 +362,9 @@ const Hero: React.FC = React.memo(() => {
                       scale: 1,
                       rotateY: 0,
                       opacity: 1,
-                      boxShadow: '0 30px 60px -15px rgba(0, 0, 0, 0.5)',
                       y: 0,
                       rotateX: 0,
-                      filter: 'blur(0px)'
+                      filter: 'drop-shadow(0 30px 60px rgba(0, 0, 0, 0.5))' // Shadow respects PNG transparency
                     };
                     zIndex = 10;
                   }
@@ -370,10 +375,9 @@ const Hero: React.FC = React.memo(() => {
                       scale: 0.85,
                       rotateY: -25, // Flipped: negative rotation for left side to angle inward
                       opacity: 1,
-                      boxShadow: '0 20px 40px -12px rgba(0, 0, 0, 0.4)',
                       y: 10,
                       rotateX: 0,
-                      filter: 'blur(0px)'
+                      filter: 'drop-shadow(0 20px 40px rgba(0, 0, 0, 0.4))' // Shadow respects PNG transparency
                     };
                     zIndex = 9;
                   }
@@ -384,10 +388,9 @@ const Hero: React.FC = React.memo(() => {
                       scale: 0.85,
                       rotateY: 25, // Flipped: positive rotation for right side to angle inward
                       opacity: 1,
-                      boxShadow: '0 20px 40px -12px rgba(0, 0, 0, 0.4)',
                       y: 10,
                       rotateX: 0,
-                      filter: 'blur(0px)'
+                      filter: 'drop-shadow(0 20px 40px rgba(0, 0, 0, 0.4))' // Shadow respects PNG transparency
                     };
                     zIndex = 9;
                   }
@@ -398,10 +401,9 @@ const Hero: React.FC = React.memo(() => {
                       scale: 0.75,
                       rotateY: -35, // Flipped
                       opacity: 0.7,
-                      boxShadow: '0 15px 30px -10px rgba(0, 0, 0, 0.35)',
                       y: 20,
                       rotateX: 0,
-                      filter: 'blur(0.5px)'
+                      filter: 'drop-shadow(0 15px 30px rgba(0, 0, 0, 0.35)) blur(0.5px)' // Combined filters, shadow respects transparency
                     };
                     zIndex = 8;
                   }
@@ -412,10 +414,9 @@ const Hero: React.FC = React.memo(() => {
                       scale: 0.75,
                       rotateY: 35, // Flipped
                       opacity: 0.7,
-                      boxShadow: '0 15px 30px -10px rgba(0, 0, 0, 0.35)',
                       y: 20,
                       rotateX: 0,
-                      filter: 'blur(0.5px)'
+                      filter: 'drop-shadow(0 15px 30px rgba(0, 0, 0, 0.35)) blur(0.5px)' // Combined filters, shadow respects transparency
                     };
                     zIndex = 8;
                   }
@@ -429,10 +430,9 @@ const Hero: React.FC = React.memo(() => {
                       scale: Math.max(0.65, 0.75 - (absOffset - 2) * 0.06),
                       rotateY: -direction * Math.min(40, 35 + (absOffset - 2) * 2), // Flipped: negative direction for inward rotation
                       opacity: Math.max(0.3, 0.7 - (absOffset - 2) * 0.12),
-                      boxShadow: '0 10px 20px -8px rgba(0, 0, 0, 0.3)',
                       y: 20 + (absOffset - 2) * 5,
                       rotateX: 0,
-                      filter: `blur(${Math.min(3, 0.5 + (absOffset - 2) * 0.8)}px)`
+                      filter: `drop-shadow(0 10px 20px rgba(0, 0, 0, 0.3)) blur(${Math.min(3, 0.5 + (absOffset - 2) * 0.8)}px)` // Combined filters, shadow respects transparency
                     };
                     zIndex = Math.max(1, 8 - (absOffset - 2));
                   }
@@ -440,9 +440,9 @@ const Hero: React.FC = React.memo(() => {
                   const cardHoverEffect = {
                     y: isCenter ? -8 : -12,
                     scale: isCenter ? 1.03 : 0.78,
-                    boxShadow: isCenter
-                      ? '0 30px 60px -15px rgba(0, 0, 0, 0.5)'
-                      : '0 20px 40px -10px rgba(0, 0, 0, 0.4)',
+                    filter: isCenter
+                      ? 'drop-shadow(0 35px 70px rgba(0, 0, 0, 0.6))' // Enhanced shadow on hover, respects transparency
+                      : 'drop-shadow(0 25px 50px rgba(0, 0, 0, 0.5))', // Enhanced shadow on hover, respects transparency
                   };
 
                   // Sophisticated entrance animation with liquid-smooth spring physics
