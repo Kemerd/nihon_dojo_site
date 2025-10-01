@@ -232,6 +232,32 @@ const FAQAnswer = styled(motion.div)`
   padding-right: ${({ theme }) => theme.spacing.lg};
 `;
 
+// Footnote for guarantee details
+const Footnote = styled(motion.div)`
+  margin-top: ${({ theme }) => theme.spacing['2xl']};
+  padding: ${({ theme }) => theme.spacing.xl};
+  background: ${({ theme }) => theme.colors.background.primary}40;
+  border-radius: ${({ theme }) => theme.borderRadius.lg};
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  text-align: center;
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
+    grid-column: 1 / -1; /* Span full width on larger screens */
+  }
+`;
+
+const FootnoteText = styled.p`
+  color: ${({ theme }) => theme.colors.text.secondary};
+  font-size: ${({ theme }) => theme.typography.fontSize.sm};
+  line-height: 1.6;
+  margin: 0;
+
+  strong {
+    color: ${({ theme }) => theme.colors.text.primary};
+    font-weight: ${({ theme }) => theme.typography.fontWeight.semibold};
+  }
+`;
+
 const faqs = [
     {
         question: "How does Nihon Dojo actually work?",
@@ -239,7 +265,7 @@ const faqs = [
     },
     {
         question: "What is the two-year fluency guarantee?",
-        answer: "Use Nihon Dojo every day for two years. Follow the system. Do the reviews. If you're not conversationally fluent in Japanese, we'll refund every penny. Most apps won't make this promise because they know their cute gamification doesn't work. We will, because we built tools that do.",
+        answer: "Learn 10 new words per day for 600 days within a 2-year period (730 days total). Follow the system. Do the reviews. If you're not conversationally fluent in Japanese, we'll refund every penny. Most apps won't make this promise because they know their cute gamification doesn't work. We will, because we built tools that do.",
     },
     {
         question: "What's FSRS and why should I care?",
@@ -425,12 +451,12 @@ const Support: React.FC = () => {
                                 >
                                     {faq.question}
                                     <motion.span
-                                        animate={{ 
+                                        animate={{
                                             rotate: openFAQ === index ? 180 : 0,
                                         }}
-                                        transition={{ 
-                                            type: 'spring', 
-                                            stiffness: 300, 
+                                        transition={{
+                                            type: 'spring',
+                                            stiffness: 300,
                                             damping: 20,
                                             duration: 0.4,
                                         }}
@@ -449,19 +475,19 @@ const Support: React.FC = () => {
                                             ref={(el) => {
                                                 contentRefs.current[index] = el;
                                             }}
-                                            initial={{ 
+                                            initial={{
                                                 height: 0,
                                                 opacity: 0,
                                                 paddingTop: 0,
                                                 paddingBottom: 0,
                                             }}
-                                            animate={{ 
+                                            animate={{
                                                 height: contentHeights[index] || 'auto',
                                                 opacity: 1,
                                                 paddingTop: 24,
                                                 paddingBottom: 24,
                                             }}
-                                            exit={{ 
+                                            exit={{
                                                 height: 0,
                                                 opacity: 0,
                                                 paddingTop: 0,
@@ -486,9 +512,9 @@ const Support: React.FC = () => {
                                                     damping: 30,
                                                     mass: 0.8,
                                                 },
-                                                opacity: { 
-                                                    duration: 0.2, 
-                                                    ease: 'easeOut' 
+                                                opacity: {
+                                                    duration: 0.2,
+                                                    ease: 'easeOut'
                                                 },
                                             }}
                                         >
@@ -499,6 +525,13 @@ const Support: React.FC = () => {
                             </FAQItem>
                         ))}
                     </FAQSection>
+
+                    <Footnote variants={fadeUpVariant}>
+                        <FootnoteText>
+                            * The two-year fluency guarantee requires learning <strong>10 new words per day</strong> for <strong>600 days</strong> within a <strong>2-year period (730 days total)</strong>.
+                            Missing a few days is fine—consistency is what matters. We track your progress, and if you hit the target but aren't conversationally fluent, we refund you. Simple as that.
+                        </FootnoteText>
+                    </Footnote>
                 </Grid>
             </Container>
         </SupportSection>
