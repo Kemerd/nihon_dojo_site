@@ -317,6 +317,12 @@ const Hero: React.FC = React.memo(() => {
   // Log activeIndex changes to track navigation
   React.useEffect(() => {
     console.log(`🎯 ACTIVE INDEX CHANGED: ${activeIndex} | hasEnteredInitiallyRef.current: ${hasEnteredInitiallyRef.current}`);
+
+    // Log container width on each navigation to detect expansion/contraction
+    if (carouselRef.current) {
+      const rect = carouselRef.current.getBoundingClientRect();
+      console.log(`   📏 Container width: ${rect.width}px`);
+    }
   }, [activeIndex]);
 
   return (
@@ -371,13 +377,17 @@ const Hero: React.FC = React.memo(() => {
 
                   // Log calculations for center card and immediate neighbors
                   if (Math.abs(offset) <= 2) {
-                    console.log(`📊 Card ${index} | offset: ${offset} | isCenter: ${isCenter} | cardPos: ${cardPositionOffset} | activePos: ${activePositionOffset}`)
+                    const timestamp = Date.now() % 100000;
+                    console.log(`📊 [${timestamp}] Card ${index} | offset: ${offset} | isCenter: ${isCenter} | cardPos: ${cardPositionOffset} | activePos: ${activePositionOffset}`)
                   }
+
+                  // Base card width in pixels for calculations (300px as reference)
+                  const baseCardWidth = 300;
 
                   // Center card (currently selected)
                   if (isCenter) {
                     animateState = {
-                      x: '0%',
+                      x: 0,
                       scale: 1,
                       rotateY: 0,
                       opacity: 1,
@@ -390,7 +400,7 @@ const Hero: React.FC = React.memo(() => {
                   // Immediate left neighbor - fully opaque with rotation towards viewer
                   else if (offset === -1) {
                     animateState = {
-                      x: '-85%',
+                      x: -baseCardWidth * 0.85,
                       scale: 0.85,
                       rotateY: -25, // Flipped: negative rotation for left side to angle inward
                       opacity: 1,
@@ -403,7 +413,7 @@ const Hero: React.FC = React.memo(() => {
                   // Immediate right neighbor - fully opaque with rotation towards viewer
                   else if (offset === 1) {
                     animateState = {
-                      x: '85%',
+                      x: baseCardWidth * 0.85,
                       scale: 0.85,
                       rotateY: 25, // Flipped: positive rotation for right side to angle inward
                       opacity: 1,
@@ -416,7 +426,7 @@ const Hero: React.FC = React.memo(() => {
                   // Second-tier left neighbor
                   else if (offset === -2) {
                     animateState = {
-                      x: '-130%',
+                      x: -baseCardWidth * 1.3,
                       scale: 0.75,
                       rotateY: -35, // Flipped
                       opacity: 0.7,
@@ -429,7 +439,7 @@ const Hero: React.FC = React.memo(() => {
                   // Second-tier right neighbor
                   else if (offset === 2) {
                     animateState = {
-                      x: '130%',
+                      x: baseCardWidth * 1.3,
                       scale: 0.75,
                       rotateY: 35, // Flipped
                       opacity: 0.7,
@@ -445,7 +455,7 @@ const Hero: React.FC = React.memo(() => {
                     const direction = offset < 0 ? -1 : 1;
 
                     animateState = {
-                      x: `${direction * (130 + (absOffset - 2) * 30)}%`,
+                      x: direction * baseCardWidth * (1.3 + (absOffset - 2) * 0.3),
                       scale: Math.max(0.65, 0.75 - (absOffset - 2) * 0.06),
                       rotateY: -direction * Math.min(40, 35 + (absOffset - 2) * 2), // Flipped: negative direction for inward rotation
                       opacity: Math.max(0.3, 0.7 - (absOffset - 2) * 0.12),
@@ -516,6 +526,14 @@ const Hero: React.FC = React.memo(() => {
                   return (
                     <CardWrapper
                       key={card.id}
+                      ref={(el) => {
+                        // Log card width on render to detect expansion/contraction
+                        if (el && Math.abs(offset) <= 1) {
+                          const rect = el.getBoundingClientRect();
+                          const timestamp = Date.now() % 100000;
+                          console.log(`   📐 [${timestamp}] Card ${index} DOM width: ${rect.width.toFixed(1)}px`);
+                        }
+                      }}
                       initial={!hasEnteredInitiallyRef.current ? getInitialState() : false} // Only apply initial state during entrance
                       animate={{
                         ...animateState,
@@ -534,6 +552,12 @@ const Hero: React.FC = React.memo(() => {
                           layoutId={`card-image-${card.id}`}
                           src={card.src}
                           alt={card.alt}
+                          onLoad={() => {
+                            // Log when images load to see if they cause reflows
+                            if (Math.abs(offset) <= 1) {
+                              console.log(`🖼️ Card ${index} image loaded | offset: ${offset}`);
+                            }
+                          }}
                         />
                       </motion.div>
                     </CardWrapper>
