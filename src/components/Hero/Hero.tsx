@@ -9,8 +9,8 @@ import { useSectionTracking } from '../../hooks/useAnalyticsTracking';
 const IOS_APP_STORE_LOGO = `${process.env.PUBLIC_URL}/assets/images/brand-logos/ios_app_store.svg`;
 const ANDROID_APP_STORE_LOGO = `${process.env.PUBLIC_URL}/assets/images/brand-logos/android_app_store.svg`;
 
-// Generate array of app preview images (0.png through 9.png)
-const APP_PREVIEW_IMAGES = Array.from({ length: 10 }, (_, i) =>
+// Generate array of app preview images (0.png through 10.png)
+const APP_PREVIEW_IMAGES = Array.from({ length: 11 }, (_, i) =>
   `${process.env.PUBLIC_URL}/assets/images/app_previews/${i}.png`
 );
 
@@ -139,16 +139,25 @@ const CarouselInnerContainer = styled(motion.div)`
   justify-content: center;
   align-items: center;
   position: relative;
-  min-height: 800px;
-  perspective: 1500px;
-  max-width: 1200px;
+  min-height: 900px;
+  perspective: 2000px;
+  max-width: 1400px;
   margin: 0 auto;
   margin-top: 0;
+  overflow: visible;
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
+    min-height: 700px;
+  }
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    min-height: 550px;
+  }
 `;
 
 const CardWrapper = styled(motion.div)`
   position: absolute;
-  width: clamp(200px, 40%, 360px);
+  width: clamp(280px, 25%, 420px);
   aspect-ratio: 2619 / 5436; /* Portrait phone screenshot aspect ratio (roughly 0.482:1 or 1:2.08) */
   cursor: pointer;
   transform-style: preserve-3d;
@@ -156,6 +165,14 @@ const CardWrapper = styled(motion.div)`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
+    width: clamp(200px, 35%, 320px);
+  }
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    width: clamp(160px, 50%, 280px);
+  }
 `;
 
 const CardImage = styled(motion.img)`
@@ -365,60 +382,101 @@ const Hero: React.FC = React.memo(() => {
             >
               <AnimatePresence initial={true}>
                 {cardData.map((card, index) => {
-                  const offset = index - activeIndex;
-                  const isCenter = offset === 0;
+                  // Calculate position offset based on card index and which card is active/centered
+                  const cardPositionOffset = getPositionOffset(index);
+                  const activePositionOffset = getPositionOffset(activeIndex);
+                  const offset = cardPositionOffset - activePositionOffset;
+                  const isCenter = index === activeIndex;
 
                   let animateState = {};
                   let zIndex = 0;
 
+                  // Center card (currently selected)
                   if (isCenter) {
                     animateState = {
                       x: '0%',
                       scale: 1,
                       rotateY: 0,
                       opacity: 1,
-                      boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.45)',
+                      boxShadow: '0 30px 60px -15px rgba(0, 0, 0, 0.5)',
                       y: 0,
                       rotateX: 0,
                       filter: 'blur(0px)'
                     };
-                    zIndex = 3;
-                  } else if (offset === -1) {
+                    zIndex = 10;
+                  }
+                  // Immediate left neighbor
+                  else if (offset === -1) {
                     animateState = {
-                      x: '-65%',
-                      scale: 0.72,
-                      rotateY: 40,
+                      x: '-85%',
+                      scale: 0.85,
+                      rotateY: 15,
+                      opacity: 0.85,
+                      boxShadow: '0 20px 40px -12px rgba(0, 0, 0, 0.4)',
+                      y: 10,
+                      rotateX: 0,
+                      filter: 'blur(0px)'
+                    };
+                    zIndex = 9;
+                  }
+                  // Immediate right neighbor
+                  else if (offset === 1) {
+                    animateState = {
+                      x: '85%',
+                      scale: 0.85,
+                      rotateY: -15,
+                      opacity: 0.85,
+                      boxShadow: '0 20px 40px -12px rgba(0, 0, 0, 0.4)',
+                      y: 10,
+                      rotateX: 0,
+                      filter: 'blur(0px)'
+                    };
+                    zIndex = 9;
+                  }
+                  // Second-tier left neighbor
+                  else if (offset === -2) {
+                    animateState = {
+                      x: '-130%',
+                      scale: 0.75,
+                      rotateY: 25,
                       opacity: 0.6,
                       boxShadow: '0 15px 30px -10px rgba(0, 0, 0, 0.35)',
-                      y: 0,
+                      y: 20,
                       rotateX: 0,
-                      filter: 'blur(0px)'
+                      filter: 'blur(1px)'
                     };
-                    zIndex = 2;
-                  } else if (offset === 1) {
+                    zIndex = 8;
+                  }
+                  // Second-tier right neighbor
+                  else if (offset === 2) {
                     animateState = {
-                      x: '65%',
-                      scale: 0.72,
-                      rotateY: -40,
+                      x: '130%',
+                      scale: 0.75,
+                      rotateY: -25,
                       opacity: 0.6,
                       boxShadow: '0 15px 30px -10px rgba(0, 0, 0, 0.35)',
-                      y: 0,
+                      y: 20,
                       rotateX: 0,
-                      filter: 'blur(0px)'
+                      filter: 'blur(1px)'
                     };
-                    zIndex = 2;
-                  } else {
+                    zIndex = 8;
+                  }
+                  // Further cards - position them off screen but ready for transitions
+                  else {
+                    const absOffset = Math.abs(offset);
+                    const direction = offset < 0 ? -1 : 1;
+
                     animateState = {
-                      x: offset < 0 ? '-120%' : '120%',
-                      scale: 0.5,
-                      rotateY: offset < 0 ? 60 : -60,
-                      opacity: 0,
-                      boxShadow: '0 5px 10px rgba(0, 0, 0, 0.2)',
-                      y: 0,
+                      x: `${direction * (130 + (absOffset - 2) * 30)}%`,
+                      scale: Math.max(0.6, 0.75 - (absOffset - 2) * 0.08),
+                      rotateY: direction * (25 + (absOffset - 2) * 8),
+                      opacity: Math.max(0, 0.6 - (absOffset - 2) * 0.15),
+                      boxShadow: '0 10px 20px -8px rgba(0, 0, 0, 0.3)',
+                      y: 20 + (absOffset - 2) * 5,
                       rotateX: 0,
-                      filter: 'blur(0px)'
+                      filter: `blur(${Math.min(4, 1 + (absOffset - 2) * 1)}px)`
                     };
-                    zIndex = 1;
+                    zIndex = Math.max(1, 8 - (absOffset - 2));
                   }
 
                   const cardHoverEffect = {
@@ -431,21 +489,21 @@ const Hero: React.FC = React.memo(() => {
 
                   // Sophisticated entrance animation with liquid-smooth spring physics
                   const getInitialState = () => {
-                    // Always use entrance animation for initial mount
-                    // Cards start below viewport with elegant positioning
+                    const cardOffset = getPositionOffset(index);
+                    // Cards start below viewport with elegant positioning based on their final position
                     return {
                       opacity: 0,
                       scale: 0.3,
-                      x: index === 1 ? "0%" : (index < 1 ? "-45%" : "45%"),
+                      x: cardOffset === 0 ? "0%" : (cardOffset < 0 ? "-45%" : "45%"),
                       y: 300, // Start from below
-                      rotateY: index === 1 ? 0 : (index < 1 ? 25 : -25),
+                      rotateY: cardOffset === 0 ? 0 : (cardOffset < 0 ? 25 : -25),
                       rotateX: -15, // Subtle 3D tilt
                       filter: 'blur(10px)', // Start blurred for premium effect
                     };
                   };
 
                   // Calculate staggered delay for liquid cascade effect
-                  const entranceDelay = 0.5 + (Math.abs(index - 1) * 0.15);
+                  const entranceDelay = 0.5 + (Math.abs(getPositionOffset(index)) * 0.15);
 
                   return (
                     <CardWrapper
