@@ -471,13 +471,14 @@ const Hero: React.FC = React.memo(() => {
                     console.log(`   ↳ x: ${(animateState as any).x} | scale: ${(animateState as any).scale} | rotateY: ${(animateState as any).rotateY}`);
                   }
 
-                  const cardHoverEffect = {
+                  // Only enable hover effect after entrance animation completes
+                  const cardHoverEffect = hasEnteredInitiallyRef.current ? {
                     y: isCenter ? -8 : -12,
                     scale: isCenter ? 1.03 : 0.78,
                     filter: isCenter
                       ? 'drop-shadow(0 35px 70px rgba(0, 0, 0, 0.6))' // Enhanced shadow on hover, respects transparency
                       : 'drop-shadow(0 25px 50px rgba(0, 0, 0, 0.5))', // Enhanced shadow on hover, respects transparency
-                  };
+                  } : {};
 
                   // Sophisticated entrance animation with liquid-smooth spring physics
                   const getInitialState = () => {
