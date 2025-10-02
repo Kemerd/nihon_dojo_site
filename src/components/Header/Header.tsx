@@ -395,7 +395,7 @@ const Header: React.FC = () => {
         <Nav>
           {/* Discord Button without rhythm animation */}
           <DiscordButton 
-            href="https://discord.gg/ZEJ97uwSSX" 
+            href="https://discord.gg/vQjKzjGtKg" 
             target="_blank" 
             rel="noopener noreferrer"
             variants={bounceScale}
@@ -441,7 +441,7 @@ const Header: React.FC = () => {
           >
             {/* Add Discord button to mobile menu */}
             <MobileDiscordButton
-              href="https://discord.gg/ZEJ97uwSSX"
+              href="https://discord.gg/vQjKzjGtKg"
               target="_blank"
               rel="noopener noreferrer"
               variants={bounceScale}

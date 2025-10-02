@@ -199,7 +199,7 @@ The site uses:
 
 For issues or questions:
 - Email: support@novabox.digital
-- Discord: https://discord.gg/ZEJ97uwSSX
+- Discord: https://discord.gg/vQjKzjGtKg
 - GitHub Issues: [Repository Issues Page]
 
 ---
