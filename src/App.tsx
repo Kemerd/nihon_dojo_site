@@ -11,33 +11,58 @@ import Pricing from './components/Pricing/Pricing';
 import Roadmap from './components/Roadmap/Roadmap';
 import Support from './components/Support/Support';
 import Footer from './components/Footer/Footer';
+import PrivacyPolicy from './components/PrivacyPolicy/PrivacyPolicy';
 import { initGA, trackPageView } from './utils/analytics';
 
 const App: React.FC = () => {
+  // State to track current route based on hash
+  const [currentRoute, setCurrentRoute] = React.useState(window.location.hash);
+
   // Initialize Google Analytics and track page view
   React.useEffect(() => {
     // Initialize GA
     initGA();
-    
+
     // Track initial page view
-    trackPageView(window.location.pathname + window.location.search);
-    
+    trackPageView(window.location.pathname + window.location.search + window.location.hash);
+
     // Ensure page always starts at top on mount/refresh
     // Disable browser's automatic scroll restoration
     if ('scrollRestoration' in window.history) {
       window.history.scrollRestoration = 'manual';
     }
-    
+
     // Force scroll to top immediately
     window.scrollTo(0, 0);
-    
+
     // Also ensure it happens after any potential layout shifts
     const timeoutId = setTimeout(() => {
       window.scrollTo(0, 0);
     }, 0);
-    
+
     return () => clearTimeout(timeoutId);
   }, []);
+
+  // Listen for hash changes to handle routing
+  React.useEffect(() => {
+    const handleHashChange = () => {
+      setCurrentRoute(window.location.hash);
+      // Track page view on hash change
+      trackPageView(window.location.pathname + window.location.search + window.location.hash);
+      // Scroll to top when route changes
+      window.scrollTo(0, 0);
+    };
+
+    // Listen for hash changes
+    window.addEventListener('hashchange', handleHashChange);
+
+    return () => {
+      window.removeEventListener('hashchange', handleHashChange);
+    };
+  }, []);
+
+  // Check if we're on the privacy policy route
+  const isPrivacyRoute = currentRoute === '#privacy-policy';
 
   return (
     <HelmetProvider>
@@ -45,13 +70,21 @@ const App: React.FC = () => {
         <SEO />
         <GlobalStyles />
         <Header />
-        <main>
-          <Hero />
-          <Features />
-          <Pricing />
-          <Roadmap />
-          <Support />
-        </main>
+        {isPrivacyRoute ? (
+          // Privacy Policy page (hidden route for Apple)
+          <main>
+            <PrivacyPolicy />
+          </main>
+        ) : (
+          // Normal homepage
+          <main>
+            <Hero />
+            <Features />
+            <Pricing />
+            <Roadmap />
+            <Support />
+          </main>
+        )}
         <Footer />
       </ThemeProvider>
     </HelmetProvider>
