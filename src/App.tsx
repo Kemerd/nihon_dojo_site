@@ -12,6 +12,7 @@ import Roadmap from './components/Roadmap/Roadmap';
 import Support from './components/Support/Support';
 import Footer from './components/Footer/Footer';
 import PrivacyPolicy from './components/PrivacyPolicy/PrivacyPolicy';
+import TermsOfService from './components/TermsOfService/TermsOfService';
 import { initGA, trackPageView } from './utils/analytics';
 
 const App: React.FC = () => {
@@ -61,8 +62,9 @@ const App: React.FC = () => {
     };
   }, []);
 
-  // Check if we're on the privacy policy route
+  // Check if we're on the privacy policy or terms of service routes
   const isPrivacyRoute = currentRoute === '#privacy-policy';
+  const isTermsRoute = currentRoute === '#terms-of-service';
 
   return (
     <HelmetProvider>
@@ -74,6 +76,11 @@ const App: React.FC = () => {
           // Privacy Policy page (hidden route for Apple)
           <main>
             <PrivacyPolicy />
+          </main>
+        ) : isTermsRoute ? (
+          // Terms of Service page (hidden route for Apple)
+          <main>
+            <TermsOfService />
           </main>
         ) : (
           // Normal homepage
