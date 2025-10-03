@@ -99,14 +99,14 @@ export const TERMS_OF_SERVICE = {
         {
           number: "5.6",
           title: "Two-Year Fluency Guarantee",
-          content: `If you use Nihon Dojo every day for two consecutive years, complete all assigned reviews, and follow the study system as intended, but do not achieve conversational fluency in Japanese, we will refund your entire subscription cost for those two years.
+          content: `If you use Nihon Dojo for at least 600 days out of 730 days (two years), complete all assigned reviews, and follow the study system as intended, but do not achieve conversational fluency in Japanese, we will refund your entire subscription cost for those two years.
 
 To qualify for the guarantee:`,
           list: [
-            "You must complete daily reviews without missing more than 7 days total over the two-year period",
+            "You must complete daily reviews on at least 600 out of 730 days",
             "You must complete at least 80% of recommended grammar lessons",
             "You must maintain an average review accuracy of at least 60%",
-            "You must request the refund within 30 days after completing the two-year period"
+            "You must provide proof of attempted conversational assessment within 60 days after completing the 730-day period"
           ],
           additionalContent: `Conversational fluency is defined as the ability to hold a 10-minute conversation in Japanese on everyday topics with a native speaker, as verified by a third-party assessment we provide.`
         },
