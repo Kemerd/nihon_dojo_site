@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import styled from 'styled-components';
 import { slideInRight, bounceScale } from '../../animations/variants';
 import { trackDiscordClick, trackNavigation } from '../../utils/analytics';
+import LaunchModal from '../LaunchModal/LaunchModal';
 // Styled components for our header
 const HeaderContainer = styled(motion.header)<{ $isMenuOpen?: boolean; $isAnimating?: boolean }>`
   position: fixed;
@@ -292,6 +293,7 @@ const DiscordSVG = () => (
 const Header: React.FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isMenuAnimating, setIsMenuAnimating] = useState(false); // Track animation state
+  const [isLaunchModalOpen, setIsLaunchModalOpen] = useState(false); // Track launch modal state
   
   // Lock body scroll when mobile menu is open
   useEffect(() => {
@@ -334,6 +336,12 @@ const Header: React.FC = () => {
   // Handler for navigation link clicks
   const handleNavClick = (destination: string) => {
     trackNavigation(destination, 'header');
+  };
+
+  // Handler for Google Play button click - opens modal instead
+  const handleGooglePlayClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setIsLaunchModalOpen(true);
   };
 
   // Array of nav items for clean mapping
@@ -386,6 +394,7 @@ const Header: React.FC = () => {
               variants={bounceScale}
               whileHover="hover"
               whileTap="tap"
+              onClick={handleGooglePlayClick}
             >
               <img src={`${process.env.PUBLIC_URL}/assets/images/brand-logos/android_app_store.svg`} alt="Get it on Google Play" />
             </AppStoreButton>
@@ -471,6 +480,12 @@ const Header: React.FC = () => {
           </MobileMenu>
         )}
       </AnimatePresence>
+
+      {/* Launch Modal for Android App */}
+      <LaunchModal
+        isOpen={isLaunchModalOpen}
+        onClose={() => setIsLaunchModalOpen(false)}
+      />
     </HeaderContainer>
   );
 };

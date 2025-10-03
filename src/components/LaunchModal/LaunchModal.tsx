@@ -165,11 +165,10 @@ const LaunchModal: React.FC<LaunchModalProps> = ({ isOpen, onClose }) => {
             onClick={handleContentClick}
           >
             <LaunchTitle>Coming Soon</LaunchTitle>
-            <LaunchDate>May 31st, 2025</LaunchDate>
+            <LaunchDate>Q1 2026</LaunchDate>
             <Description>
-              We're putting the finishing touches on MixMate AI. 
-              Get ready to transform your production workflow with the world's first 
-              intelligent DAW assistant.
+              We're crafting the Android version of Nihon Dojo.
+              Same powerful AI-driven Japanese learning, same results-focused approach—now on Android.
             </Description>
             <CloseButton
               whileHover={{ scale: 1.05 }}
@@ -179,7 +178,7 @@ const LaunchModal: React.FC<LaunchModalProps> = ({ isOpen, onClose }) => {
               Got it!
             </CloseButton>
             <CountdownHint>
-              Mark your calendar – your mixes are about to get a lot better.
+              Your Japanese fluency journey is about to get even more accessible.
             </CountdownHint>
           </ModalContent>
         </ModalBackdrop>

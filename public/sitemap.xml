@@ -4,53 +4,45 @@
         xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
   <!-- Homepage - highest priority, most frequently updated -->
   <url>
-    <loc>https://mixmate.ai/</loc>
-    <lastmod>2024-12-14</lastmod>
+    <loc>https://nihondojo.ai/</loc>
+    <lastmod>2025-10-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <image:image>
-      <image:loc>https://mixmate.ai/site_preview.png</image:loc>
-      <image:title>MixMate AI - Intelligent DAW Assistant Interface</image:title>
-      <image:caption>Revolutionary AI-powered music production assistant showing real-time mixing suggestions and DAW integration</image:caption>
+      <image:loc>https://nihondojo.ai/site_preview.png</image:loc>
+      <image:title>Nihon Dojo - Japanese Learning for Adults Who Want Results</image:title>
+      <image:caption>AI-powered Japanese learning with sentence generation, FSRS spaced repetition, and formality switching. Two-year fluency guarantee.</image:caption>
     </image:image>
   </url>
-  
+
   <!-- Features section - critical for SEO -->
   <url>
-    <loc>https://mixmate.ai/#features</loc>
-    <lastmod>2024-12-14</lastmod>
+    <loc>https://nihondojo.ai/#features</loc>
+    <lastmod>2025-10-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
-  
+
   <!-- Pricing - super important for conversions -->
   <url>
-    <loc>https://mixmate.ai/#pricing</loc>
-    <lastmod>2024-12-14</lastmod>
+    <loc>https://nihondojo.ai/#pricing</loc>
+    <lastmod>2025-10-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
-  
-  <!-- Technical details - for the nerds who want to know how it works -->
-  <url>
-    <loc>https://mixmate.ai/#technical</loc>
-    <lastmod>2024-12-14</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  
+
   <!-- Roadmap - shows we're actively developing -->
   <url>
-    <loc>https://mixmate.ai/#roadmap</loc>
-    <lastmod>2024-12-14</lastmod>
+    <loc>https://nihondojo.ai/#roadmap</loc>
+    <lastmod>2025-10-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
-  
+
   <!-- Support section -->
   <url>
-    <loc>https://mixmate.ai/#support</loc>
-    <lastmod>2024-12-14</lastmod>
+    <loc>https://nihondojo.ai/#support</loc>
+    <lastmod>2025-10-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
