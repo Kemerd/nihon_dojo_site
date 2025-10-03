@@ -1,18 +1,18 @@
 /* TEAM */
 Company: Novabox LLC
-Site: https://mixmate.ai
-Twitter: @mixmateai
+Site: https://nihondojo.ai
+Twitter: @nihondojoai
 Location: San Francisco, CA
 
 /* THANKS */
-Name: The music production community for inspiring us to build this
+Name: The Japanese learning community for inspiring us to build this
 
 /* TECHNOLOGY */
-Last update: 2024/12/14
+Last update: 2025/10/03
 Standards: HTML5, CSS3, ES6+
 Components: React, TypeScript, Styled Components
-Software: Ableton Live, LibTorch, OpenAI
+Software: AI-powered sentence generation, FSRS spaced repetition
 
 /* MISSION */
-Making professional music production accessible to everyone through AI
-Price: Just $9.99/month because great tools shouldn't break the bank 
+Japanese fluency for adults who want results, not games
+Guarantee: Two-year fluency or full refund because we stand behind our method 
