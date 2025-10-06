@@ -106,7 +106,7 @@ nihon_dojo_site/
 Create a `.env` file in the root (optional):
 ```env
 REACT_APP_DISCORD_URL=https://discord.gg/your-server
-REACT_APP_IOS_STORE_URL=https://apps.apple.com/app/nihon-dojo
+REACT_APP_IOS_STORE_URL=https://apps.apple.com/app/nihondojo-ai/id6749792374
 REACT_APP_ANDROID_STORE_URL=https://play.google.com/store/apps/details?id=com.nihondojo.app
 ```
 

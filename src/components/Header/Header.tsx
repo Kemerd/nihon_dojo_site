@@ -377,7 +377,7 @@ const Header: React.FC = () => {
 
           <AppStoreButtons>
             <AppStoreButton
-              href="https://apps.apple.com/app/nihon-dojo"
+              href="https://apps.apple.com/app/nihondojo-ai/id6749792374"
               target="_blank"
               rel="noopener noreferrer"
               variants={bounceScale}
