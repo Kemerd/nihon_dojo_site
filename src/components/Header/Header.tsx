@@ -353,6 +353,7 @@ const Header: React.FC = () => {
   ];
 
   return (
+    <>
     <HeaderContainer
       $isMenuOpen={isMobileMenuOpen}
       $isAnimating={isMenuAnimating}
@@ -480,13 +481,14 @@ const Header: React.FC = () => {
           </MobileMenu>
         )}
       </AnimatePresence>
-
-      {/* Launch Modal for Android App */}
-      <LaunchModal
-        isOpen={isLaunchModalOpen}
-        onClose={() => setIsLaunchModalOpen(false)}
-      />
     </HeaderContainer>
+
+    {/* Launch Modal for Android App - Rendered outside HeaderContainer to prevent z-index/positioning issues */}
+    <LaunchModal
+      isOpen={isLaunchModalOpen}
+      onClose={() => setIsLaunchModalOpen(false)}
+    />
+    </>
   );
 };
 
