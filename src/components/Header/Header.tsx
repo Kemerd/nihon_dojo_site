@@ -62,6 +62,34 @@ const LeftSection = styled.div`
   display: flex;
   align-items: center;
   gap: ${({ theme }) => theme.spacing.lg};
+  flex: 1; /* Allow it to take equal space on mobile */
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
+    flex: 0 0 auto; /* Don't grow on mobile, just fit content */
+  }
+`;
+
+// Center section for mobile - holds app store buttons
+const CenterSection = styled.div`
+  display: none;
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: ${({ theme }) => theme.spacing.sm};
+    flex: 1; /* Take up center space */
+  }
+`;
+
+// Right section for mobile menu button
+const RightSection = styled.div`
+  display: flex;
+  align-items: center;
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
+    flex: 0 0 auto; /* Don't grow on mobile, just fit content */
+  }
 `;
 
 const Logo = styled(motion.a)`
@@ -85,7 +113,7 @@ const AppStoreButtons = styled.div`
   gap: ${({ theme }) => theme.spacing.md};
 
   @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
-    display: none; /* Hide on mobile to save space */
+    display: none; /* Hide on mobile - shown separately at top center */
   }
 `;
 
@@ -376,6 +404,7 @@ const Header: React.FC = () => {
             <img src={`${process.env.PUBLIC_URL}/assets/logo/logo_plain.png`} alt="Nihon Dojo Logo" />
           </Logo>
 
+          {/* Desktop app store buttons - shown next to logo on desktop */}
           <AppStoreButtons>
             <AppStoreButton
               href="https://apps.apple.com/app/nihondojo-ai/id6749792374"
@@ -402,11 +431,38 @@ const Header: React.FC = () => {
           </AppStoreButtons>
         </LeftSection>
 
+        {/* Center section - app store buttons on mobile */}
+        <CenterSection>
+          <AppStoreButton
+            href="https://apps.apple.com/app/nihondojo-ai/id6749792374"
+            target="_blank"
+            rel="noopener noreferrer"
+            variants={bounceScale}
+            whileHover="hover"
+            whileTap="tap"
+          >
+            <img src={`${process.env.PUBLIC_URL}/assets/images/brand-logos/ios_app_store.svg`} alt="Download on App Store" />
+          </AppStoreButton>
+
+          <AppStoreButton
+            href="https://play.google.com/store/apps/details?id=com.nihondojo.app"
+            target="_blank"
+            rel="noopener noreferrer"
+            variants={bounceScale}
+            whileHover="hover"
+            whileTap="tap"
+            onClick={handleGooglePlayClick}
+          >
+            <img src={`${process.env.PUBLIC_URL}/assets/images/brand-logos/android_app_store.svg`} alt="Get it on Google Play" />
+          </AppStoreButton>
+        </CenterSection>
+
+        {/* Desktop navigation */}
         <Nav>
           {/* Discord Button without rhythm animation */}
-          <DiscordButton 
-            href="https://discord.gg/vQjKzjGtKg" 
-            target="_blank" 
+          <DiscordButton
+            href="https://discord.gg/vQjKzjGtKg"
+            target="_blank"
             rel="noopener noreferrer"
             variants={bounceScale}
             whileHover="hover"
@@ -416,7 +472,7 @@ const Header: React.FC = () => {
           >
             <DiscordSVG />
           </DiscordButton>
-          
+
           {/* Navigation links with simple hover animations */}
           {navItems.map((item) => (
             <NavLink
@@ -432,13 +488,16 @@ const Header: React.FC = () => {
           ))}
         </Nav>
 
-        <MobileMenuButton
-          onClick={handleMenuToggle}
-          variants={bounceScale}
-          whileTap="tap"
-        >
-          <AnimatedHamburger isOpen={isMobileMenuOpen} />
-        </MobileMenuButton>
+        {/* Right section - mobile menu button */}
+        <RightSection>
+          <MobileMenuButton
+            onClick={handleMenuToggle}
+            variants={bounceScale}
+            whileTap="tap"
+          >
+            <AnimatedHamburger isOpen={isMobileMenuOpen} />
+          </MobileMenuButton>
+        </RightSection>
       </HeaderTopRow>
 
       <AnimatePresence onExitComplete={handleExitComplete}>
@@ -461,7 +520,7 @@ const Header: React.FC = () => {
             >
               <DiscordSVG />
             </MobileDiscordButton>
-            
+
             {/* Navigation links */}
             {navItems.map((item) => (
               <MobileNavLink
