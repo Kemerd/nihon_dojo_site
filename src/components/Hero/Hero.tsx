@@ -40,6 +40,7 @@ const GradientBackground = styled(motion.div)`
 const HeroContent = styled(motion.div)`
   max-width: 1200px;
   width: 100%;
+  margin: 0 auto; /* Ensure horizontal centering */
   text-align: center;
   z-index: 1;
 `;
@@ -59,6 +60,33 @@ const Title = styled(motion.h1)`
   background-size: 200% auto;
   margin-bottom: ${({ theme }) => theme.spacing.xl};
   line-height: 1.2;
+
+  /* Container for optically-centered split text */
+  width: 100%; /* Ensure title spans full container width */
+  display: flex;
+  flex-direction: column;
+  align-items: stretch; /* Make children take full width */
+`;
+
+// Optical centering container for each line - creates a hard 50/50 split at centerline
+const OpticalLine = styled.span`
+  display: flex;
+  width: 100%;
+  align-items: center;
+`;
+
+// Right-aligned half of split text (appears before the centerline) - takes exactly 50% width
+const RightAlignedHalf = styled.span`
+  flex: 1;
+  text-align: right;
+  padding-right: 0.15em; /* Reduced spacing for tighter optical centering */
+`;
+
+// Left-aligned half of split text (appears after the centerline) - takes exactly 50% width
+const LeftAlignedHalf = styled.span`
+  flex: 1;
+  text-align: left;
+  padding-left: 0.15em; /* Reduced spacing for tighter optical centering */
 `;
 
 const Subtitle = styled(motion.p)`
@@ -340,9 +368,14 @@ const Hero: React.FC = React.memo(() => {
         <Title
           variants={fadeUpVariant}
         >
-          Master Japanese.
-          <br />
-          Two Years. Guaranteed.
+          <OpticalLine>
+            <RightAlignedHalf>Master</RightAlignedHalf>
+            <LeftAlignedHalf>Japanese.</LeftAlignedHalf>
+          </OpticalLine>
+          <OpticalLine>
+            <RightAlignedHalf>Two Years.</RightAlignedHalf>
+            <LeftAlignedHalf>Guaranteed.</LeftAlignedHalf>
+          </OpticalLine>
         </Title>
 
         <Subtitle variants={fadeUpVariant}>
