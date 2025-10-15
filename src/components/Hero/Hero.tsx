@@ -20,6 +20,28 @@ const HeroSection = styled(motion.section)`
   padding-top: calc(${({ theme }) => theme.spacing['3xl']} * 2);
   position: relative;
   overflow: hidden;
+
+  /* Below 1280px: Maintain proportional spacing - ~40px equivalent from header to title */
+  @media (max-width: ${({ theme }) => theme.breakpoints.xl}) {
+    padding-top: calc(60px + 3.125vw); /* Header height + ~40px scaled proportionally */
+    justify-content: flex-start; /* Align to top for consistent spacing control */
+  }
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
+    padding-left: ${({ theme }) => theme.spacing.md};
+    padding-right: ${({ theme }) => theme.spacing.md};
+    padding-top: calc(60px + 5vw); /* Scale up spacing slightly on smaller tablets */
+  }
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    padding: ${({ theme }) => theme.spacing.md} ${({ theme }) => theme.spacing.md};
+    padding-top: calc(60px + 6vw); /* Maintain proportional spacing on mobile */
+  }
+
+  @media (max-width: 400px) {
+    padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.sm};
+    padding-top: calc(60px + 7vw);
+  }
 `;
 
 const GradientBackground = styled(motion.div)`
@@ -46,7 +68,7 @@ const HeroContent = styled(motion.div)`
 `;
 
 const Title = styled(motion.h1)`
-  font-size: clamp(2.5rem, 8vw, ${({ theme }) => theme.typography.fontSize['6xl']});
+  font-size: clamp(2.5rem, 7vw, ${({ theme }) => theme.typography.fontSize['6xl']});
   font-weight: ${({ theme }) => theme.typography.fontWeight.bold};
   background: linear-gradient(
     135deg,
@@ -58,7 +80,7 @@ const Title = styled(motion.h1)`
   background-clip: text;
   color: transparent;
   background-size: 200% auto;
-  margin-bottom: ${({ theme }) => theme.spacing.xl};
+  margin-bottom: ${({ theme }) => theme.spacing.xl}; /* Desktop: ~32px, roughly maintaining ~60px total with line-height */
   line-height: 1.2;
 
   /* Container for optically-centered split text */
@@ -66,6 +88,33 @@ const Title = styled(motion.h1)`
   display: flex;
   flex-direction: column;
   align-items: stretch; /* Make children take full width */
+
+  /* Below 1280px: Maintain ~60px proportional spacing to subtitle */
+  @media (max-width: ${({ theme }) => theme.breakpoints.xl}) {
+    margin-bottom: clamp(2.5rem, 4.6875vw, 3.75rem); /* 40px minimum, ~60px scaled proportionally */
+  }
+
+  /* Tablet adjustments */
+  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
+    margin-bottom: clamp(2.5rem, 6vw, 4rem); /* Comfortable spacing on tablets */
+  }
+
+  /* Mobile breakpoint - adjust spacing at 640px and below */
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    font-size: clamp(2rem, 8vw, 3rem); /* More aggressive scaling on mobile */
+    line-height: 1.15;
+    margin-bottom: clamp(2rem, 8vw, 3rem); /* ~51px at 640px (8vw = 51.2px) */
+  }
+
+  @media (max-width: 480px) {
+    font-size: clamp(1.75rem, 8.5vw, 2.75rem);
+    margin-bottom: clamp(1.75rem, 9vw, 2.75rem); /* ~43px at 480px */
+  }
+
+  @media (max-width: 400px) {
+    font-size: clamp(1.75rem, 9vw, 2.5rem); /* Even more reactive on very small screens */
+    margin-bottom: clamp(1.5rem, 10vw, 2.5rem); /* ~40px at 400px */
+  }
 `;
 
 // Optical centering container for each line - creates a hard 50/50 split at centerline
@@ -80,6 +129,15 @@ const RightAlignedHalf = styled.span`
   flex: 1;
   text-align: right;
   padding-right: 0.15em; /* Reduced spacing for tighter optical centering */
+
+  /* Tighter spacing on small screens to prevent overflow */
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    padding-right: 0.1em;
+  }
+
+  @media (max-width: 400px) {
+    padding-right: 0.08em;
+  }
 `;
 
 // Left-aligned half of split text (appears after the centerline) - takes exactly 50% width
@@ -87,6 +145,15 @@ const LeftAlignedHalf = styled.span`
   flex: 1;
   text-align: left;
   padding-left: 0.15em; /* Reduced spacing for tighter optical centering */
+
+  /* Tighter spacing on small screens to prevent overflow */
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    padding-left: 0.1em;
+  }
+
+  @media (max-width: 400px) {
+    padding-left: 0.08em;
+  }
 `;
 
 const Subtitle = styled(motion.p)`
@@ -94,9 +161,44 @@ const Subtitle = styled(motion.p)`
   color: ${({ theme }) => theme.colors.text.secondary};
   max-width: 800px;
   margin: 0 auto;
-  margin-bottom: ${({ theme }) => theme.spacing['2xl']};
+  margin-bottom: ${({ theme }) => theme.spacing['2xl']}; /* Desktop: ~40px base */
   line-height: 1.5;
   padding: 0 ${({ theme }) => theme.spacing.md};
+
+  /* Below 1280px: Maintain ~50px MINIMUM proportional spacing to carousel */
+  @media (max-width: ${({ theme }) => theme.breakpoints.xl}) {
+    margin-bottom: clamp(3.125rem, 3.90625vw, 3.75rem); /* 50px minimum (3.125rem), scaled proportionally */
+  }
+
+  /* Tablet range - MORE spacing to prevent overlap at awkward sizes */
+  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
+    margin-bottom: clamp(4rem, 6.5vw, 6rem); /* 64px minimum spacing on tablets */
+  }
+
+  /* Mobile breakpoint at 640px and below - AGGRESSIVE spacing to prevent overlap */
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    font-size: clamp(0.95rem, 3.5vw, 1.125rem); /* Reactive sizing */
+    padding: 0 ${({ theme }) => theme.spacing.sm};
+    margin-bottom: calc(50px + 15vw); /* FORCE 50px MINIMUM + extra scaling space */
+    line-height: 1.6;
+    max-width: 100%; /* Allow full width on mobile */
+  }
+
+  /* Mid-range problem zone - EXTRA spacing where overlap happens */
+  @media (max-width: 600px) and (min-width: 481px) {
+    margin-bottom: calc(50px + 20vw); /* Even MORE space in the problem zone! */
+  }
+
+  /* Very small screens - can reduce spacing as text gets smaller */
+  @media (max-width: 480px) {
+    font-size: clamp(0.875rem, 4vw, 1rem);
+    padding: 0;
+    margin-bottom: calc(50px + 10vw); /* Still maintain 50px minimum */
+  }
+
+  @media (max-width: 400px) {
+    margin-bottom: clamp(3rem, 12.5vw, 4rem); /* ~48px minimum for very small screens */
+  }
 `;
 
 // Carousel Styled Components
@@ -122,6 +224,11 @@ const CarouselOuterContainer = styled(motion.div)`
     filter: blur(30px);
     pointer-events: none;
   }
+
+  /* Less bottom padding on mobile to tighten layout */
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    padding-bottom: ${({ theme }) => theme.spacing.xl};
+  }
 `;
 
 const CarouselInnerContainer = styled(motion.div)`
@@ -137,8 +244,10 @@ const CarouselInnerContainer = styled(motion.div)`
   padding-top: ${({ theme }) => theme.spacing.md};
   overflow: visible;
 
+  /* Scale down container size proportionally */
   @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
     min-height: 500px;
+    padding-top: 0; /* Let subtitle margin-bottom handle spacing */
   }
 
   @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
@@ -238,6 +347,19 @@ const Hero: React.FC = React.memo(() => {
   const carouselRef = React.useRef<HTMLDivElement>(null);
   // Ref to track if initial entrance animation has completed - using ref to avoid re-render
   const hasEnteredInitiallyRef = React.useRef(false);
+  
+  // Track window width for responsive spacing
+  const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1200);
+  
+  // Update window width on resize for responsive spacing
+  React.useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+    
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   // Data for the carousel cards - All 10 app preview images
   const cardData = useMemo(() =>
@@ -415,7 +537,19 @@ const Hero: React.FC = React.memo(() => {
                   }
 
                   // Base card width in pixels for calculations (300px as reference)
+                  // Responsive spacing: tighter on mobile, normal on desktop
+                  // Use actual window width for accurate responsive calculations
                   const baseCardWidth = 300;
+                  const isMobile = windowWidth <= 768; // Mobile breakpoint
+                  const isTablet = windowWidth > 768 && windowWidth <= 1024; // Tablet breakpoint
+                  
+                  // Progressive spacing reduction: smaller screens = tighter spacing
+                  let spacingMultiplier = 1; // Desktop default
+                  if (isMobile) {
+                    spacingMultiplier = 0.6; // 40% tighter on mobile
+                  } else if (isTablet) {
+                    spacingMultiplier = 0.75; // 25% tighter on tablet
+                  }
 
                   // Center card (currently selected)
                   if (isCenter) {
@@ -433,7 +567,7 @@ const Hero: React.FC = React.memo(() => {
                   // Immediate left neighbor - fully opaque with rotation towards viewer
                   else if (offset === -1) {
                     animateState = {
-                      x: -baseCardWidth * 0.85,
+                      x: -baseCardWidth * 0.85 * spacingMultiplier,
                       scale: 0.85,
                       rotateY: -25, // Flipped: negative rotation for left side to angle inward
                       opacity: 1,
@@ -446,7 +580,7 @@ const Hero: React.FC = React.memo(() => {
                   // Immediate right neighbor - fully opaque with rotation towards viewer
                   else if (offset === 1) {
                     animateState = {
-                      x: baseCardWidth * 0.85,
+                      x: baseCardWidth * 0.85 * spacingMultiplier,
                       scale: 0.85,
                       rotateY: 25, // Flipped: positive rotation for right side to angle inward
                       opacity: 1,
@@ -459,7 +593,7 @@ const Hero: React.FC = React.memo(() => {
                   // Second-tier left neighbor
                   else if (offset === -2) {
                     animateState = {
-                      x: -baseCardWidth * 1.3,
+                      x: -baseCardWidth * 1.3 * spacingMultiplier,
                       scale: 0.75,
                       rotateY: -35, // Flipped
                       opacity: 0.7,
@@ -472,7 +606,7 @@ const Hero: React.FC = React.memo(() => {
                   // Second-tier right neighbor
                   else if (offset === 2) {
                     animateState = {
-                      x: baseCardWidth * 1.3,
+                      x: baseCardWidth * 1.3 * spacingMultiplier,
                       scale: 0.75,
                       rotateY: 35, // Flipped
                       opacity: 0.7,
@@ -488,7 +622,7 @@ const Hero: React.FC = React.memo(() => {
                     const direction = offset < 0 ? -1 : 1;
 
                     animateState = {
-                      x: direction * baseCardWidth * (1.3 + (absOffset - 2) * 0.3),
+                      x: direction * baseCardWidth * (1.3 + (absOffset - 2) * 0.3) * spacingMultiplier,
                       scale: Math.max(0.65, 0.75 - (absOffset - 2) * 0.06),
                       rotateY: -direction * Math.min(40, 35 + (absOffset - 2) * 2), // Flipped: negative direction for inward rotation
                       opacity: Math.max(0.3, 0.7 - (absOffset - 2) * 0.12),
