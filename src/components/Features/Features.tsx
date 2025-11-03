@@ -221,6 +221,24 @@ const FEATURES_DATA = [
       description: 'FSRS algorithm, not some watered-down knockoff. Reviews words until you hate them, then reviews them more. No participation trophies. Just results.',
       comingSoon: false
   },
+  {
+      icon: '✍️',
+      title: 'Kanji Writing Practice',
+      description: 'Animated stroke order for every kanji. Pressure-sensitive drawing with instant feedback. Swipe right in your study session to practice writing any character. Because muscle memory beats rote memorization.',
+      comingSoon: false
+  },
+  {
+      icon: '🔊',
+      title: 'Neural Text-to-Speech',
+      description: 'GPU-accelerated voice synthesis that\'s 15x faster than competitors. Multiple natural voices. IPA phonemes for perfect pronunciation. Audio that renders in the background so you never wait.',
+      comingSoon: false
+  },
+  {
+      icon: '🖼️',
+      title: 'Visual Learning System',
+      description: 'Integrated images on flashcards that reinforce meaning. Configurable blur for Japanese side to prevent cheating. Background images for kanji practice. Because a picture is worth 一千 words.',
+      comingSoon: false
+  },
 ];
 
 
