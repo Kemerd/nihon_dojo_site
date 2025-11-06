@@ -75,13 +75,84 @@ const SectionTitle = styled(motion.h2)`
   z-index: 2;
 `;
 
-const FeaturesGrid = styled(motion.div)`
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: ${({ theme }) => theme.spacing.xl};
-  margin-top: ${({ theme }) => theme.spacing['2xl']};
+const ScrollingContainer = styled.div`
   position: relative;
+  margin-top: ${({ theme }) => theme.spacing['2xl']};
+  overflow: hidden;
+  width: 100%;
   z-index: 2;
+  
+  /* Gradient overlays for edge fade */
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 200px;
+    z-index: 10;
+    pointer-events: none;
+  }
+  
+  &::before {
+    left: 0;
+    background: linear-gradient(
+      to right,
+      ${({ theme }) => theme.colors.background.secondary} 0%,
+      transparent 100%
+    );
+  }
+  
+  &::after {
+    right: 0;
+    background: linear-gradient(
+      to left,
+      ${({ theme }) => theme.colors.background.secondary} 0%,
+      transparent 100%
+    );
+  }
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
+    &::before,
+    &::after {
+      width: 100px;
+    }
+  }
+`;
+
+const ScrollingRow = styled.div<{ direction: 'left' | 'right' }>`
+  display: flex;
+  gap: ${({ theme }) => theme.spacing.xl};
+  margin-bottom: ${({ theme }) => theme.spacing.xl};
+  width: max-content;
+  animation: ${({ direction }) => direction === 'left' ? 'scrollLeft' : 'scrollRight'} 60s linear infinite;
+  
+  &:last-child {
+    margin-bottom: 0;
+  }
+  
+  /* Pause animation on hover */
+  &:hover {
+    animation-play-state: paused;
+  }
+  
+  @keyframes scrollLeft {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+  
+  @keyframes scrollRight {
+    0% {
+      transform: translateX(-50%);
+    }
+    100% {
+      transform: translateX(0);
+    }
+  }
 `;
 
 const FeatureCard = styled(motion.div)`
@@ -96,6 +167,14 @@ const FeatureCard = styled(motion.div)`
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);
+  min-width: 350px;
+  max-width: 350px;
+  flex-shrink: 0;
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
+    min-width: 300px;
+    max-width: 300px;
+  }
 
   &::before {
     content: '';
@@ -184,7 +263,7 @@ const SubtleText = styled(motion.p)`
 
 // Move static data outside component to prevent recreation on every render
 
-const FEATURES_DATA = [
+const FEATURES_ROW_1 = [
   {
       icon: '📘',
       title: 'Core 6000 Vocabulary',
@@ -204,6 +283,27 @@ const FEATURES_DATA = [
       comingSoon: false
   },
   {
+      icon: '🧠',
+      title: 'Actual Spaced Repetition',
+      description: 'FSRS algorithm, not some watered-down knockoff. Reviews words until you hate them, then reviews them more. No participation trophies. Just results.',
+      comingSoon: false
+  },
+  {
+      icon: '🔊',
+      title: 'Neural Text-to-Speech',
+      description: 'GPU-accelerated voice synthesis that\'s 15x faster than competitors. Multiple natural voices. IPA phonemes for perfect pronunciation. Audio that renders in the background so you never wait.',
+      comingSoon: false
+  },
+  {
+      icon: '📚',
+      title: 'Vocab Manager & Dictionary',
+      description: 'Offline JMdict dictionary with 150,000+ words. Search in English or Japanese. Create custom vocabulary lists. Antonyms, related words, etymology. Your personal Japanese reference library.',
+      comingSoon: false
+  },
+];
+
+const FEATURES_ROW_2 = [
+  {
       icon: '🎎',
       title: 'Cultural Immersion',
       description: 'Learn the social rules other apps pretend don\'t exist. Politeness levels, etiquette nuances, gendered speech. You can\'t learn the language without learning the culture.',
@@ -216,27 +316,27 @@ const FEATURES_DATA = [
       comingSoon: false
   },
   {
-      icon: '🧠',
-      title: 'Actual Spaced Repetition',
-      description: 'FSRS algorithm, not some watered-down knockoff. Reviews words until you hate them, then reviews them more. No participation trophies. Just results.',
-      comingSoon: false
-  },
-  {
       icon: '✍️',
       title: 'Kanji Writing Practice',
-      description: 'Animated stroke order for every kanji. Pressure-sensitive drawing with instant feedback. Swipe right in your study session to practice writing any character. Because muscle memory beats rote memorization.',
-      comingSoon: false
-  },
-  {
-      icon: '🔊',
-      title: 'Neural Text-to-Speech',
-      description: 'GPU-accelerated voice synthesis that\'s 15x faster than competitors. Multiple natural voices. IPA phonemes for perfect pronunciation. Audio that renders in the background so you never wait.',
+      description: 'Animated stroke order for every kanji. Pressure-sensitive drawing with instant feedback. Swipe right in your study session to practice writing any character. Just like Japanese students drill characters into their hands until it becomes second nature.',
       comingSoon: false
   },
   {
       icon: '🖼️',
       title: 'Visual Learning System',
       description: 'Integrated images on flashcards that reinforce meaning. Configurable blur for Japanese side to prevent cheating. Background images for kanji practice. Because a picture is worth 一千 words.',
+      comingSoon: false
+  },
+  {
+      icon: '⚡',
+      title: 'Practice Blitz Games',
+      description: 'Lightning-fast mini-games for grammar and culture. 8,800+ practice questions with instant feedback. Test reflexes, watch progress grow. Learning doesn\'t have to be boring.',
+      comingSoon: false
+  },
+  {
+      icon: '📊',
+      title: 'Progress Analytics',
+      description: 'Historical stats dashboard with calendar heatmap. Track daily activity, answer distribution, hourly patterns. View card retention and forecast upcoming workload. Data-driven language learning.',
       comingSoon: false
   },
 ];
@@ -246,9 +346,8 @@ const LOGO_PATH = `${process.env.PUBLIC_URL}/assets/logo/logo_plain.png`;
 
 // Memoized FeatureCard component to prevent unnecessary re-renders
 const MemoizedFeatureCard = React.memo<{
-    feature: typeof FEATURES_DATA[0];
-    index: number;
-}>(({ feature, index }) => {
+    feature: typeof FEATURES_ROW_1[0];
+}>(({ feature }) => {
     // Simple hover animation - no rhythm controller needed
     const hoverAnimation = useMemo(() => ({
         y: -8,
@@ -259,26 +358,9 @@ const MemoizedFeatureCard = React.memo<{
         },
     }), []);
 
-    // Memoize icon animation
-    const iconAnimation = useMemo(() => ({
-        initial: { scale: 0 },
-        animate: { scale: 1 },
-        transition: {
-            type: 'spring',
-            stiffness: 300,
-            damping: 20,
-            delay: index * 0.1,
-        }
-    }), [index]);
-
     return (
-        <FeatureCard
-            variants={fadeUpVariant}
-            whileHover={hoverAnimation}
-        >
-            <FeatureIcon
-                {...iconAnimation}
-            >
+        <FeatureCard whileHover={hoverAnimation}>
+            <FeatureIcon>
                 {feature.icon}
             </FeatureIcon>
             <FeatureTitle>{feature.title}</FeatureTitle>
@@ -326,6 +408,10 @@ const Features: React.FC = React.memo(() => {
         transition: { type: 'spring', stiffness: 100, damping: 20, delay: 0.3 }
     }), []);
 
+    // Duplicate arrays for seamless infinite scroll
+    const duplicatedRow1 = useMemo(() => [...FEATURES_ROW_1, ...FEATURES_ROW_1], []);
+    const duplicatedRow2 = useMemo(() => [...FEATURES_ROW_2, ...FEATURES_ROW_2], []);
+
     return (
         <FeaturesSection id="features" ref={(el) => {
             // Combine both refs
@@ -362,19 +448,31 @@ const Features: React.FC = React.memo(() => {
                     <SubtleText
                         {...subtitleAnimation}
                     >
-                        While other apps focus on making you feel productive, we focus on making you fluent. The features that actually matter.
+                        While other apps focus on making you feel productive, we focus on making you fluent. The features that actually matter for adults who don't have time for games.
                     </SubtleText>
                 </TopSpecificSubtleTextContainer>
 
-                <FeaturesGrid>
-                    {FEATURES_DATA.map((feature, index) => (
-                        <MemoizedFeatureCard
-                            key={`${feature.title}-${index}`}
-                            feature={feature}
-                            index={index}
-                        />
-                    ))}
-                </FeaturesGrid>
+                <ScrollingContainer>
+                    {/* Row 1 - Scrolls Left */}
+                    <ScrollingRow direction="left">
+                        {duplicatedRow1.map((feature, index) => (
+                            <MemoizedFeatureCard
+                                key={`row1-${feature.title}-${index}`}
+                                feature={feature}
+                            />
+                        ))}
+                    </ScrollingRow>
+
+                    {/* Row 2 - Scrolls Right */}
+                    <ScrollingRow direction="right">
+                        {duplicatedRow2.map((feature, index) => (
+                            <MemoizedFeatureCard
+                                key={`row2-${feature.title}-${index}`}
+                                feature={feature}
+                            />
+                        ))}
+                    </ScrollingRow>
+                </ScrollingContainer>
             </Container>
         </FeaturesSection>
     );

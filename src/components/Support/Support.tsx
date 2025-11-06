@@ -261,7 +261,7 @@ const FootnoteText = styled.p`
 const faqs = [
     {
         question: "How does Nihon Dojo actually work?",
-        answer: "Nihon Dojo uses AI to generate example sentences using only words you've already learned. Combined with FSRS spaced repetition and formality switching, you learn Japanese the way humans actually acquire language - through context and repetition.",
+        answer: "Nihon Dojo uses AI to generate example sentences using only words you've already learned. Combined with FSRS spaced repetition and a bunch of psychology tricks, you learn Japanese the way humans actually acquire language - through context and repetition.",
     },
     {
         question: "What is the two-year fluency guarantee?",
@@ -281,7 +281,7 @@ const faqs = [
     },
     {
         question: "Does it work offline?",
-        answer: "Yes. While you need internet to generate new AI sentences, once we finish the feature, the app will work perfectly offline once content is cached. Study on planes, trains, or anywhere without WiFi.",
+        answer: "Yes. Because we know you're cramming on that 16-hour flight to Tokyo. While you need internet to generate AI sentences, the app works perfectly offline once content is cached. Study on planes, trains, or anywhere without WiFi.",
     },
     {
         question: "What if I cancel my subscription?",

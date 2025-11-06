@@ -265,28 +265,26 @@ const CTAButton = styled(motion.button).withConfig({
 const FREE_FEATURES = [
   'Review up to 10 cards per day',
   'Basic core flashcard system',
-  'Kana game access',
-  'Grammar lessons',
-  'Cultural lessons',
+  'Kana game & writing practice',
+  'Grammar & culture lessons',
   'Basically a glorified demo',
 ];
 
 const PRO_FEATURES = [
   'Up to 20 words per day',
   'AI-generated sentences for vocabulary',
-  'AI-powered learning acceleration',
+  'Automated cloud backups & restore',
+  'Kanji writing practice with stroke order',
   'Customer support (for paying customers)',
-  'My undying love',
   'All Free tier features',
 ];
 
 const EXPERT_FEATURES = [
   'Up to 40 words per day',
+  'AI narration with GPU acceleration',
+  'Flashcard images for retention',
   'Priority sentence generation',
-  'AI narration for all vocabulary',
-  'Cloud backups & sync (coming soon)',
   'Early access to new features',
-  'My undying love',
   'All Pro tier features',
 ];
 

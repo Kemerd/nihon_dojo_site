@@ -8,10 +8,15 @@ This is the marketing landing page for the Nihon Dojo mobile app, available on i
 ## **Features**
 - 📘 **Core 6000 Vocabulary Module**: AI-powered flashcards with dynamic sentence generation using only words you've learned
 - 🎌 **Real-Time Formality Switching**: Master casual (tameguchi), standard (futsū), and formal (keigo) speech
-- 📙 **Comprehensive Grammar Journey**: Structured lessons that actually build on each other
-- 🎎 **Cultural Immersion**: Learn the social rules other apps pretend don't exist
-- 🈵 **Kana Mastery System**: Hiragana and katakana practice with native pronunciation
-- 🔊 **Premium Audio Experience**: Native Japanese speaker recordings for authentic pronunciation
+- 📙 **Comprehensive Grammar Journey**: Structured lessons with Practice Blitz mini-games for rapid reinforcement
+- 🎎 **Cultural Immersion**: Learn the social rules other apps pretend don't exist, with interactive etiquette scenarios
+- 🈵 **Kana Mastery System**: Hiragana and katakana practice with native pronunciation and writing practice with stroke order
+- ✍️ **Kanji Writing Practice**: Swipe right-to-left to practice writing with animated stroke order and pressure support
+- 🔊 **GPU-Accelerated TTS**: 15x faster neural voice synthesis with multiple natural voices and IPA phonemes
+- 📚 **Vocab Manager & Dictionary**: Offline JMdict dictionary with 150,000+ words, create custom vocab lists
+- 🖼️ **Visual Learning System**: Integrated images on flashcards with configurable blur and color customization
+- 📊 **Historical Progress Analytics**: Calendar heatmap, retention stats, hourly patterns, and 30-day workload forecast
+- ☁️ **Automated Cloud Backups**: Manual and automatic backups with restore functionality for Pro & Expert users
 
 ## **Tech Stack**
 ### **Landing Page:**
@@ -88,18 +93,23 @@ Our built-in formality switching teaches you how Japanese people actually talk. 
 ### **Available Now:**
 - Complete Core 6000 vocabulary with AI sentence generation
 - Full formality switching system
-- Comprehensive grammar lessons
-- Cultural immersion content
-- Kana practice minigame
-- Native audio for all kana
+- Comprehensive grammar lessons with Practice Blitz games (8,800+ questions)
+- Cultural immersion content with interactive scenarios
+- Kana writing practice with stroke order visualization
+- Kanji writing practice with pressure support
+- GPU-accelerated neural TTS with multiple voices
+- Vocab Manager with offline dictionary (150,000+ words)
+- Visual flashcards with images and color themes
+- Historical progress dashboard with calendar heatmap
+- Automated cloud backups and restore
 
 ### **Coming Soon:**
-- Handwriting recognition for kanji practice
+- Roleplay scenarios for conversational practice
+- Scanner for text recognition (OCR)
+- Translator tool
 - Speech recognition for pronunciation practice
-- Custom deck creation
 - Anki import functionality
 - Community features and shared content
-- Advanced analytics dashboard
 
 ## **License**
 All Rights Reserved.
